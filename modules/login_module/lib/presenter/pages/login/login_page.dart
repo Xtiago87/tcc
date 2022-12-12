@@ -24,6 +24,11 @@ class _LoginPageState extends State<LoginPage> {
       TextEditingController();
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,29 +42,24 @@ class _LoginPageState extends State<LoginPage> {
                 builder: (context) {
                   return Dialog(
                       child: Padding(
-                        padding:
-                        const EdgeInsets.all(
-                            16.0),
-                        child: Row(
-                          children: const [
-                            CircularProgressIndicator(),
-                            Flexible(
-                              child: Padding(
-                                padding:
-                                EdgeInsets.only(
-                                    left: 32.0),
-                                child: Text(
-                                  "Entrando no aplicativo...",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                  color: Colors.black),
-                                ),
-                              ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: const [
+                        CircularProgressIndicator(),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 32.0),
+                            child: Text(
+                              "Entrando no aplicativo...",
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black),
                             ),
-                          ],
+                          ),
                         ),
-                      ));
+                      ],
+                    ),
+                  ));
                 },
               );
             }

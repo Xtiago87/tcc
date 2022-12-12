@@ -45,7 +45,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         if(snapshot.data == "0"){
                           return Column(
                             children: [
-                              PerfilDashboardComponent(),
+                              PerfilDashboardComponent(perfilEntity: state.perfilEntity),
                               const SizedBox(
                                 height: 16,
                               ),
@@ -59,7 +59,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         }else{
                           return Column(
                             children: [
-                              PerfilDashboardComponent(),
+                              PerfilDashboardComponent(perfilEntity: state.perfilEntity),
                               const SizedBox(
                                 height: 16,
                               ),

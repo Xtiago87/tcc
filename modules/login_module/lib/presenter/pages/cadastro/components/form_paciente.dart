@@ -36,6 +36,11 @@ class _FormPacienteState extends State<FormPaciente> {
       TextEditingController();
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,

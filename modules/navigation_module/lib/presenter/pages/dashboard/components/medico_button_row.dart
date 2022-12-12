@@ -72,7 +72,7 @@ class _MedicoButtonRowState extends State<MedicoButtonRow> {
               onTap: () {
                 Modular.to.pushNamed("./meus_centros_medicos");
               },
-              child: Image.asset("assets/images/medic_medical_center_button.png")),
+              child: Image.asset("assets/images/cm_button.png")),
           const SizedBox(
             width: 24,
           ),

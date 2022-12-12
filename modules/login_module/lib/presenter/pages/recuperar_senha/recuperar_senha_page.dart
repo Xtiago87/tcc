@@ -25,6 +25,11 @@ class _RecuperarSenhaPageState extends State<RecuperarSenhaPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,

@@ -30,6 +30,7 @@ class FormProfissionalDaSaude extends StatelessWidget {
 
   FormProfissionalDaSaude({Key? key, required this.cadastroMedicoBloc})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Form(

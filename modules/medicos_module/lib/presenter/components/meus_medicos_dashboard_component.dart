@@ -9,7 +9,6 @@ import 'package:medicos_module/presenter/bloc/meus_medicos/meus_medicos_state.da
 import 'package:medicos_module/presenter/components/medico_card.dart';
 
 class MeusMedicosDashboardComponent extends StatelessWidget {
-
   MeusMedicosDashboardComponent({super.key, required this.perfilEntity});
 
   final MeusMedicosBloc medicosBloc = Modular.get<MeusMedicosBloc>();
@@ -18,47 +17,58 @@ class MeusMedicosDashboardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MeusMedicosBloc>(
-      create: (context) => medicosBloc..add(GetMeusMedicosEvent(id: perfilEntity.uid)),
+      create: (context) =>
+          medicosBloc..add(GetMeusMedicosEvent(id: perfilEntity.uid)),
       child: BlocBuilder<MeusMedicosBloc, MeusMedicosState>(
-        builder:(context, state) {
-          if(state is MeusMedicosSuccessState){
+        builder: (context, state) {
+          if (state is MeusMedicosSuccessState) {
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Meus médicos",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Modular.to.pushNamed("./meus_medicos", arguments: {
-                            "list": state.list,
-                            "id" : perfilEntity.uid
-                          } );
-                        },
-                        child: const Text("Ver mais"),
-                      )
-                    ],
+                Visibility(
+                  visible: state.list.isNotEmpty,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Meus médicos",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Modular.to.pushNamed("./meus_medicos", arguments: {
+                              "list": state.list,
+                              "id": perfilEntity.uid
+                            });
+                          },
+                          child: const Text("Ver mais"),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 16),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.list.length,
-                    itemBuilder: (context, index) {
-                      var item = state.list[index];
-                      return MedicoCard(medicEntity: item,);
-                    },
-                  ),
+                  child: state.list.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.list.length,
+                          itemBuilder: (context, index) {
+                            var item = state.list[index];
+                            return MedicoCard(
+                              medicEntity: item,
+                            );
+                          },
+                        )
+                      : const Text(
+                          "Você ainda não adicionou nenhum médico.",
+                          style: TextStyle(color: Colors.black),
+                        ),
                 )
               ],
             );

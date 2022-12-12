@@ -65,7 +65,7 @@ class NavigationModule extends Module {
         ),
         ChildRoute(
           "/meus_centros_medicos",
-          child: (context, args) => const MeusCentrosMedicosPage(),
+          child: (context, args) => const CentrosMedicosMedicoPage(),
         ),
       ];
 }

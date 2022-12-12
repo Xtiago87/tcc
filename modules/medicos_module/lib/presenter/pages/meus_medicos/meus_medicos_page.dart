@@ -135,7 +135,7 @@ class MeusMedicosPage extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   fontSize: 20),
             ),
-            body: ListView.builder(
+            body: list.isNotEmpty ? ListView.builder(
               padding: const EdgeInsets.only(left: 16, right: 16),
               itemCount: list.length,
               shrinkWrap: true,
@@ -146,6 +146,10 @@ class MeusMedicosPage extends StatelessWidget {
                   medicEntity: item,
                 );
               },
+            ) :
+            const Text(
+              "Você ainda não adicionou nenhum médico.",
+              style: TextStyle(color: Colors.black),
             ),
           ),
         ),

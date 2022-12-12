@@ -14,16 +14,16 @@ class PatientModule extends Module{
 
   @override
   List<Bind<Object>> get binds => [
-    Bind((i) => GetTokenDatasourceRemoteImpl(), export: true),
-    Bind((i) => AddUserDatasourceImpl(i()), export: true),
-    Bind((i) => AddUserRepositoryImpl(i()), export: true),
-    Bind((i) => GetTokenUsecase(i()), export: true),
-    Bind((i) => GenerateTokenBloc(), export: true),
+    Bind.lazySingleton((i) => GetTokenDatasourceRemoteImpl(), export: true),
+    Bind.lazySingleton((i) => AddUserDatasourceImpl(i()), export: true),
+    Bind.lazySingleton((i) => AddUserRepositoryImpl(i()), export: true),
+    Bind.lazySingleton((i) => GetTokenUsecase(i()), export: true),
+    Bind.factory((i) => GenerateTokenBloc(), export: true),
 
-    Bind((i) => PatientDatasourceRemoteImpl(), export: true),
-    Bind((i) => PatientDatasourceImpl(i()), export: true),
-    Bind((i) => PacienteRepositoryImpl(i()), export: true),
-    Bind((i) => GetAllMyPacientesUsecase(i()), export: true),
-    Bind((i) => MeusPacientesBloc(), export: true)
+    Bind.lazySingleton((i) => PatientDatasourceRemoteImpl(), export: true),
+    Bind.lazySingleton((i) => PatientDatasourceImpl(i()), export: true),
+    Bind.lazySingleton((i) => PacienteRepositoryImpl(i()), export: true),
+    Bind.lazySingleton((i) => GetAllMyPacientesUsecase(i()), export: true),
+    Bind.factory((i) => MeusPacientesBloc(), export: true)
   ];
 }

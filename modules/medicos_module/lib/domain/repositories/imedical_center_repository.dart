@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:medicos_module/domain/entities/medical_center_entity.dart';
 
 import '../entities/medic_entity.dart';
+import '../entities/medical_center_form_entity.dart';
 
 abstract class IMedicalCenterRepository{
 
@@ -10,5 +11,5 @@ abstract class IMedicalCenterRepository{
 
   Future<Either<Failure, List<MedicEntity>>> getMedicalCenterDetail(int id);
 
-  Future<Either<Failure, dynamic>> addMedicalCenter(dynamic form);
+  Future<Either<Failure, dynamic>> addMedicalCenter(MedicalCenterFormEntity form);
 }

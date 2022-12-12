@@ -25,7 +25,10 @@ class _CadastroPageState extends State<CadastroPage> {
   final CadastroPacienteBloc cadastroPacienteBloc =
       Modular.get<CadastroPacienteBloc>();
   final CadastroMedicoBloc cadastroMedicoBloc = Modular.get<CadastroMedicoBloc>();
-
+  @override
+  void dispose() {
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +37,8 @@ class _CadastroPageState extends State<CadastroPage> {
         providers: [
           BlocProvider(
             create: (context) => cadastroPacienteBloc,
-          )
+          ),
+          BlocProvider(create: (context) => cadastroMedicoBloc,),
         ],
         child: MultiBlocListener(
           listeners: [
@@ -42,6 +46,34 @@ class _CadastroPageState extends State<CadastroPage> {
               listener: (context, state) {
                 if (state is CadastroPacienteSuccessState) {
                   Modular.to.pushNamed("/dashboard");
+                }
+
+                if (state is CadastroPacienteLoadingState) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: const [
+                                CircularProgressIndicator(),
+                                Flexible(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 32.0),
+                                    child: Text(
+                                      "Entrando no aplicativo...",
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                      TextStyle(fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
+                    },
+                  );
                 }
 
                 if (state is CadastroPacienteFailureState) {
@@ -57,10 +89,41 @@ class _CadastroPageState extends State<CadastroPage> {
             BlocListener<CadastroMedicoBloc, CadastroMedicoState>(
               listener: (context, state) {
                 if (state is CadastroMedicoSuccessState) {
+                  Modular.to.pop();
                   Modular.to.pushNamed("/dashboard");
                 }
 
+                if (state is CadastroMedicoLoadingState) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: const [
+                                CircularProgressIndicator(),
+                                Flexible(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 32.0),
+                                    child: Text(
+                                      "Entrando no aplicativo...",
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                      TextStyle(fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
+                    },
+                  );
+                }
+
+
                 if (state is CadastroMedicoFailureState) {
+                  Modular.to.pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.errorMessage),

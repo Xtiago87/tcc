@@ -23,24 +23,18 @@ class LoginModule extends Module {
 
   @override
   List<Bind<Object>> get binds => [
-        Bind((i) => CadatroPacienteDatasourceRemoteImpl(), export: true),
-        Bind((i) => CadastroMedicoDatasourceRemoteImpl(), export: true),
-        Bind(
-            (i) => CadastroDatasoruceImpl(
-                iCadastroPacienteDatasourceRemote: i(),
-                iCadastroMedicoDatasourceRemote: i()),
-            export: true),
-        Bind((i) => CadastroRepositoryImpl(i()), export: true),
-        Bind((i) => CadastroPacienteUsecase(cadastroRepository: i()),
-            export: true),
-        Bind((i) => CadastroMedicoUsecase(cadastroRepository: i()),
-            export: true),
-        Bind((i) => CadastroPacienteBloc(), export: true),
-        Bind((i) => CadastroMedicoBloc(), export: true),
-        Bind((i) => LoginDataSourceRemoteImpl(), export: true),
-    Bind((i) => LoginDatasourceImpl(i()), export: true),
-        Bind((i) => LoginRepositoryImpl(i()), export: true),
-        Bind((i) => LoginBloc(), export: true),
-        Bind((i) => LoginUsecase(repository: i()), export: true),
+        Bind.lazySingleton((i) => CadatroPacienteDatasourceRemoteImpl(), export: true),
+        Bind.lazySingleton((i) => CadastroMedicoDatasourceRemoteImpl(), export: true),
+        Bind.lazySingleton((i) => CadastroDatasoruceImpl(iCadastroPacienteDatasourceRemote: i(), iCadastroMedicoDatasourceRemote: i()), export: true),
+        Bind.lazySingleton((i) => CadastroRepositoryImpl(i()), export: true),
+        Bind.lazySingleton((i) => CadastroPacienteUsecase(cadastroRepository: i()), export: true),
+        Bind.lazySingleton((i) => CadastroMedicoUsecase(cadastroRepository: i()), export: true),
+        Bind.factory((i) => CadastroPacienteBloc(), export: true),
+        Bind.factory((i) => CadastroMedicoBloc(), export: true),
+        Bind.lazySingleton((i) => LoginDataSourceRemoteImpl(), export: true),
+        Bind.lazySingleton((i) => LoginDatasourceImpl(i()), export: true),
+        Bind.lazySingleton((i) => LoginRepositoryImpl(i()), export: true),
+        Bind.factory((i) => LoginBloc(), export: true),
+        Bind.lazySingleton((i) => LoginUsecase(repository: i()), export: true),
       ];
 }
