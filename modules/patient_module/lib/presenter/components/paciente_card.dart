@@ -1,8 +1,11 @@
+import 'package:core_module/core_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class PatientCard extends StatelessWidget {
-  const PatientCard({super.key});
+  final PacienteEntity pacienteEntity;
+
+  const PatientCard({super.key, required this.pacienteEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +44,10 @@ class PatientCard extends StatelessWidget {
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
-                            "Daniel Saraiva",
-                            style: TextStyle(
+                            pacienteEntity.fullName,
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal),
@@ -56,32 +59,14 @@ class PatientCard extends StatelessWidget {
                       height: 8,
                     ),
                     Row(
-                      children: const [
-                        Icon(Icons.phone_outlined),
-                        SizedBox(
+                      children: [
+                        const Icon(Icons.alternate_email_outlined),
+                        const SizedBox(
                           width: 8,
                         ),
                         Text(
-                          "(85) 91824-8321",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: const [
-                        Icon(Icons.alternate_email_outlined),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          "daniel.saraiva@email.com",
-                          style: TextStyle(
+                          pacienteEntity.email,
+                          style: const TextStyle(
                               color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
@@ -90,7 +75,11 @@ class PatientCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Icon(Icons.arrow_forward_ios_rounded, size: 48, color: Color.fromARGB(255, 160, 160, 160),)
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 48,
+                  color: Color.fromARGB(255, 160, 160, 160),
+                )
               ],
             ),
           ),

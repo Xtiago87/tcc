@@ -36,6 +36,7 @@ final IPerfilDatasourceLocal iPerfilDatasourceLocal;
   @override
   Future savePerfil(PerfilModel perfilModel) async {
     try{
+      await iPerfilDatasourceLocal.deletePerfil();
       await iPerfilDatasourceLocal.savePerfil(perfilModel);
       return true;
     } on Failure{

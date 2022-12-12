@@ -4,16 +4,16 @@ import 'package:fpdart/src/either.dart';
 import 'package:patient_module/domain/repositories/ipatient_repository.dart';
 import 'package:patient_module/infra/datasources/ipatient_datasource.dart';
 
-class PatientRepositoryImpl extends IPatientRepository{
+class PacienteRepositoryImpl extends IPacienteRepository{
 
-  final IPatientDatasource iPatientDatasource;
+  final IPacienteDatasource iPatientDatasource;
 
-  PatientRepositoryImpl(this.iPatientDatasource);
+  PacienteRepositoryImpl(this.iPatientDatasource);
 
   @override
-  Future<Either<Failure, List<PacienteEntity>>> getAllMyPatients() async {
+  Future<Either<Failure, List<PacienteEntity>>> getAllMyPatients(int id) async {
     try{
-      return Right(await iPatientDatasource.getAllMyPatients());
+      return Right(await iPatientDatasource.getAllMyPatients(id));
     }on Failure catch (e){
       return Left(Failure(errorMessage: e.errorMessage));
     }

@@ -53,7 +53,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               const SizedBox(
                                 height: 24,
                               ),
-                              const MeusPacientesDashboardComponent(),
+                              MeusPacientesDashboardComponent(id: int.parse(state.perfilEntity.uid),),
                             ],
                           );
                         }else{
@@ -144,7 +144,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   );
                 }
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: Colors.red,),
                 );
               },
             ),

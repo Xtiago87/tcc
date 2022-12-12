@@ -5,7 +5,7 @@ class PerfilMapper {
 
   static PerfilModel perfilModelFromObjectbox(Perfil perfil) {
     return PerfilModel(
-        uid: perfil.id.toString(),
+        uid: perfil.uid.toString(),
         photo: "",
         id: perfil.id.toString(),
         fullName: perfil.fullName as String,
@@ -17,7 +17,7 @@ class PerfilMapper {
     perfil.email = perfilModel.email;
     perfil.fullName = perfilModel.fullName;
     perfil.photo = perfilModel.photo;
-    perfil.uid = perfilModel.id;
+    perfil.uid = perfilModel.uid;
     return perfil;
   }
 

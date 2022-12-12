@@ -3,7 +3,7 @@ import 'package:core_module/infra/models/paciente_model.dart';
 import 'package:patient_module/infra/datasources/ipatient_datasource.dart';
 import 'package:patient_module/infra/datasources/remote/ipatient_datasource_remote_impl.dart';
 
-class PatientDatasourceImpl extends IPatientDatasource{
+class PatientDatasourceImpl extends IPacienteDatasource{
 
   final IPatientDatasourceRemoteImpl iPatientDatasourceRemoteImpl;
 
@@ -11,9 +11,9 @@ class PatientDatasourceImpl extends IPatientDatasource{
 
 
   @override
-  Future<List<PacienteModel>> getAllMyPatients() async {
+  Future<List<PacienteModel>> getAllMyPatients(int id) async {
     try {
-      return await iPatientDatasourceRemoteImpl.getAllMyPatients();
+      return await iPatientDatasourceRemoteImpl.getAllMyPatients(id);
     } on Failure {
       rethrow;
     }

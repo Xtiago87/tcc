@@ -56,9 +56,6 @@ class PerfilDatasourceLocalImpl extends IPerfilDatasourceLocal{
       return _store ??= await openStore(directory: "${dir.path}/perfil_teste");
     } on Failure {
       throw Failure(errorMessage: 'Erro ao retornar a store');
-    } on UnimplementedError{
-      await Future.delayed(Duration(seconds: 1));
-      getStore();
     }
   }
 
