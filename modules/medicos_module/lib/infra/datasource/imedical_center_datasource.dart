@@ -5,4 +5,6 @@ abstract class IMedicalCenterDatasource {
   Future<List<MedicModel>> getMedicalCenterDetails(int id);
 
   Future<List<MedicalCenterModel>> listAllMedicalCenters();
+
+  Future<dynamic> addMedicalCenter(dynamic form);
 }

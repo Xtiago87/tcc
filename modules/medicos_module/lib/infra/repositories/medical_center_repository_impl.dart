@@ -34,4 +34,15 @@ class MedicalCenterRespositoryImpl extends IMedicalCenterRepository{
     }
   }
 
+  @override
+  Future<Either<Failure, dynamic>> addMedicalCenter(form) async {
+    try {
+      final result = await iMedicalCenterDatasource.addMedicalCenter(form);
+      return Right(result);
+    } on Failure catch(e) {
+      return Left(e);
+    }
+  }
+
+
 }

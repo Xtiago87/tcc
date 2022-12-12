@@ -17,6 +17,17 @@ class MedicalCenterBloc extends Bloc<MedicalCenterEvent, MedicalCenterState>{
         emit(MedicalCenterSuccessState(list: r));
       });
     });
+
+    on<GetAllMedicMedicalCentersEvent>((event, emit) async {
+      emit(MedicalCenterLoadingState());
+      final result = await usecase.listAllMedicalCentersUsecase();
+      result.fold((l) {
+        emit(MedicalCenterFailureState(errorMessage: l.errorMessage));
+      }, (r) {
+        var list = [];
+        emit(MedicalCenterSuccessState(list: r));
+      });
+    });
   }
 
   @override

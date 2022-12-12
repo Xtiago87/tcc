@@ -10,7 +10,6 @@ class PacienteCadastroFormMapper {
       'password': pacienteCadastroFormEntity.password,
       'photo': pacienteCadastroFormEntity.photo,
     };
-
     json['pacient'] = {
       'date_birth': pacienteCadastroFormEntity.dataBirth,
     };

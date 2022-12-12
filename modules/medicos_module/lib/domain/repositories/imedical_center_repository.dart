@@ -9,4 +9,6 @@ abstract class IMedicalCenterRepository{
   Future<Either<Failure, List<MedicalCenterEntity>>> listAllMedicalCenters();
 
   Future<Either<Failure, List<MedicEntity>>> getMedicalCenterDetail(int id);
+
+  Future<Either<Failure, dynamic>> addMedicalCenter(dynamic form);
 }

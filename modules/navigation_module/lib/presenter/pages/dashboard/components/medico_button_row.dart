@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:patient_module/patient_module.dart';
 
 class MedicoButtonRow extends StatefulWidget {
-  const MedicoButtonRow({Key? key}) : super(key: key);
+
+  final int id;
+  const MedicoButtonRow({Key? key, required this.id}) : super(key: key);
 
   @override
   _MedicoButtonRowState createState() => _MedicoButtonRowState();
 }
 
 class _MedicoButtonRowState extends State<MedicoButtonRow> {
+
+  final GenerateTokenBloc generateTokenBloc = Modular.get<GenerateTokenBloc>();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -24,19 +31,35 @@ class _MedicoButtonRowState extends State<MedicoButtonRow> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return AlertDialog(
-                      title: const Center(child: Text("Compartilhe essa token com seu paciente para adiciona-lo", style: TextStyle(color: Colors.blue),)),
-                      content: const Text("A1BfLj8tx9BTi6TNl3AzUp4Uj5ARIhDJOl1v4li6377c75cb2ffd"),
-                      actionsAlignment: MainAxisAlignment.center,
-                      actions: [
-                        ElevatedButton(
-                          onPressed: () {
+                    return BlocProvider<GenerateTokenBloc>(
+                      create: (context) => generateTokenBloc..add(GetToken(widget.id)),
+                      child: BlocBuilder<GenerateTokenBloc, GenerateTokenState>(
+                        builder:(context, state) {
+                          if(state is GenerateTokenSuccessState){
+                            return AlertDialog(
+                              title: const Center(child: Text("Compartilhe essa token com seu paciente para adiciona-lo", style: TextStyle(color: Colors.blue),)),
+                              content: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  children:[ Text(state.token, style: TextStyle(color: Colors.black),)]),
+                              actionsAlignment: MainAxisAlignment.center,
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
 
-                          },
-                          child: const Text("Copiar"),
-                        )
-                      ],
+                                  },
+                                  child: const Text("Copiar"),
+                                )
+                              ],
 
+                            );
+                          }
+                          return AlertDialog(
+                            content: Wrap(
+                              alignment: WrapAlignment.center,
+                                children: const [CircularProgressIndicator(),],) ,
+                          );
+                        },
+                      ),
                     );
                   },
                 );

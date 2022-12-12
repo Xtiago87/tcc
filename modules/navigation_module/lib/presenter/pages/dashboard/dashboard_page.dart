@@ -49,7 +49,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               const SizedBox(
                                 height: 16,
                               ),
-                              const MedicoButtonRow(),
+                              MedicoButtonRow(id: int.parse(state.perfilEntity.uid)),
                               const SizedBox(
                                 height: 24,
                               ),
