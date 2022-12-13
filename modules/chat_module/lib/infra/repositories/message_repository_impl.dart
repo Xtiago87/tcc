@@ -13,18 +13,18 @@ class MessageRepositoryImpl extends IMessageRepository{
 
 
   @override
-  Future<Either<Failure, MessageResponseEntity>> sendOptionsMessage(String text) async {
+  Future<Either<Failure, MessageResponseEntity>> sendOptionsMessage(String text, int id) async {
     try{
-      return Right(await iMessageDatasource.sendOptionsMessage(text));
+      return Right(await iMessageDatasource.sendOptionsMessage(text, id));
     } on Failure catch (e){
       return Left(Failure(errorMessage: e.errorMessage));
     }
   }
 
   @override
-  Future<Either<Failure, MessageEntity>> sendTextMessage(String text) async {
+  Future<Either<Failure, MessageEntity>> sendTextMessage(String text, int id) async {
     try{
-      return Right(await iMessageDatasource.sendTextMessage(text));
+      return Right(await iMessageDatasource.sendTextMessage(text, id));
     } on Failure catch (e){
       return Left(Failure(errorMessage: e.errorMessage));
     }

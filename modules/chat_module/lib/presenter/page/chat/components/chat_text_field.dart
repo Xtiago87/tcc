@@ -1,4 +1,5 @@
 import 'package:chat_module/presenter/bloc/send_message/send_message_bloc.dart';
+import 'package:chat_module/presenter/bloc/send_message/send_message_event.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/chat_message_entity.dart';
@@ -7,8 +8,9 @@ import '../util/chat_change_notifier.dart';
 class ChatTextField extends StatefulWidget {
 
   final SendMessageBloc sendMessageBloc;
+  final int id;
 
-  const ChatTextField({Key? key, required this.sendMessageBloc}) : super(key: key);
+  const ChatTextField({Key? key, required this.sendMessageBloc, required this.id}) : super(key: key);
 
   @override
   State<ChatTextField> createState() => _ChatTextFieldState();
@@ -79,6 +81,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
+                    widget.sendMessageBloc.add(SendMessageTextEvent(textEditingController.text, widget.id));
                     ChatChangeNotifier.instance.chatMessages.value.add(ChatMessageEntity(textEditingController.text, 1));
                     textEditingController.clear();
                   },

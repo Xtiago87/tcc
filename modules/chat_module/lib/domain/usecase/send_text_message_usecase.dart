@@ -10,8 +10,8 @@ class SendTextMessageUsecase{
 
   SendTextMessageUsecase(this.iMessageRepository);
 
-  Future<Either<Failure, MessageEntity>> sendTextMessage(String text) async {
-    return await iMessageRepository.sendTextMessage(text);
+  Future<Either<Failure, MessageEntity>> sendTextMessage(String text, int id) async {
+    return await iMessageRepository.sendTextMessage(text, id);
   }
 
 }

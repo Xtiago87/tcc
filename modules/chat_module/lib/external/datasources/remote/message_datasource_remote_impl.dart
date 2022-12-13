@@ -8,13 +8,13 @@ import 'package:dio/dio.dart';
 class MessageDatasourceRemoteImpl extends IMessageDatasourceRemote{
 
   @override
-  Future<MessageResponseModel> sendOptionsMessage(String text) async {
+  Future<MessageResponseModel> sendOptionsMessage(String text, int id) async {
     try {
       final Dio dio = await getDio;
 
       final response = await dio.post(
         'api/v1/medic/medical_center',
-        data: MessageMapper.messageToJson(text),
+        data: MessageMapper.messageToJson(text, id),
       );
 
       return MessageMapper.messageResponseModelOptionsFromJson(response.data);
@@ -24,14 +24,14 @@ class MessageDatasourceRemoteImpl extends IMessageDatasourceRemote{
   }
 
   @override
-  Future<MessageModel> sendTextMessage(String text) async {
+  Future<MessageModel> sendTextMessage(String text, int id) async {
     try {
       final Dio dio = await getDio;
 
       final response = await dio.post(
         'api/v1/medic/medical_center',
-        data: MessageMapper.messageToJson(text),
-      );
+        data: MessageMapper.messageToJson(text, id));
+
 
       return MessageMapper.messageResponseModelFromJson(response.data);
     } on DioError catch (e) {

@@ -2,9 +2,9 @@ import 'package:chat_module/infra/models/message_model.dart';
 import 'package:chat_module/infra/models/message_response_model.dart';
 
 class MessageMapper {
-  static Map<String, dynamic> messageToJson(String text) {
+  static Map<String, dynamic> messageToJson(String text, int id) {
     return {
-      "sender": 1,
+      "sender": id,
       "message": text,
     };
   }

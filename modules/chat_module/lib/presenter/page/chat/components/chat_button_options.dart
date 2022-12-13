@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 
 class ChatButtonOptions extends StatefulWidget {
 
-
   final SendMessageBloc sendMessageBloc;
+  final int id;
 
-  const ChatButtonOptions({Key? key, required this.sendMessageBloc}) : super(key: key);
+  const ChatButtonOptions({Key? key, required this.sendMessageBloc, required this.id}) : super(key: key);
 
   @override
   State<ChatButtonOptions> createState() => _ChatButtonOptionsState();
@@ -38,7 +38,7 @@ class _ChatButtonOptionsState extends State<ChatButtonOptions> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      widget.sendMessageBloc.add(SendMessageTextEvent("Sim"));
+                      widget.sendMessageBloc.add(SendMessageTextEvent("Sim", widget.id));
                     },
                     child: Container(
                       color: const Color.fromARGB(255, 227, 242, 253),
@@ -57,7 +57,7 @@ class _ChatButtonOptionsState extends State<ChatButtonOptions> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      widget.sendMessageBloc.add(SendMessageTextEvent("Não"));
+                      widget.sendMessageBloc.add(SendMessageTextEvent("Não", widget.id));
                     },
                     child: Container(
                       color: const Color.fromARGB(255, 227, 242, 253),

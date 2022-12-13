@@ -29,7 +29,12 @@ class _PacienteButtonRowState extends State<PacienteButtonRow> {
           const SizedBox(
             width: 16,
           ),
-          Image.asset("assets/images/chatbot_button.png"),
+          GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                Modular.to.pushNamed("./chat",arguments: widget.id);
+              },
+              child: Image.asset("assets/images/chatbot_button.png")),
           const SizedBox(
             width: 24,
           ),

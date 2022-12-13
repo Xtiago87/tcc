@@ -15,7 +15,7 @@ class SendMessageBloc extends Bloc<SendMessageEvent, SendMessageState> {
   SendMessageBloc() : super(SendMessageInitialState()) {
     on<SendMessageTextEvent>((event, emit) async {
       emit(SendMessageLoadingState());
-      final result = await textMessageUsecase.sendTextMessage(event.text);
+      final result = await textMessageUsecase.sendTextMessage(event.text, event.id);
       result.fold((l) {
         emit(SendMessageFailureState(l.errorMessage));
       }, (r) {
@@ -26,7 +26,7 @@ class SendMessageBloc extends Bloc<SendMessageEvent, SendMessageState> {
 
     on<SendMessageTextOptionsEvent>((event, emit) async {
       emit(SendMessageLoadingState());
-      final result = await optionsMessageUsecase.sendOptionsMessage(event.text);
+      final result = await optionsMessageUsecase.sendOptionsMessage(event.text, event.id);
       result.fold((l) {
         emit(SendMessageFailureState(l.errorMessage));
       }, (r) {

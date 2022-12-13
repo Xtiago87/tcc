@@ -15,7 +15,8 @@ import 'components/bot_chat_bubble.dart';
 import 'components/user_chat_bubble.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  final int id;
+  const ChatPage({Key? key, required this.id}) : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -104,8 +105,8 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     ),
                   ),
-                  if (hasMany == 1) ChatButtonOptions(sendMessageBloc: sendMessageBloc),
-                  if (hasMany == 0) ChatTextField(sendMessageBloc: sendMessageBloc)
+                  if (hasMany == 1) ChatButtonOptions(sendMessageBloc: sendMessageBloc, id: widget.id),
+                  if (hasMany == 0) ChatTextField(sendMessageBloc: sendMessageBloc, id: widget.id)
                 ],
               ),
             );
