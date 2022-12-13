@@ -25,7 +25,7 @@ class MedicosModule extends Module {
     Bind.lazySingleton((i) => AddMedicalCenterDatasourceRemoteImpl(), export: true),
     Bind.lazySingleton((i) => GetMedicalCenterDetailsDatasourceRemoteImpl(),export: true),
     Bind.lazySingleton((i) => GetAllMedicalCentersDatasourceRemoteImpl(),export: true),
-    Bind.lazySingleton((i) => MedicalCenterDatasourceImpl(i(), i()), export: true),
+    Bind.lazySingleton((i) => MedicalCenterDatasourceImpl(i(), i(), i()), export: true),
     Bind.lazySingleton((i) => RequestToLinkDatasourceRemoteImpl(), export: true),
     Bind.lazySingleton((i) => GetAllMyMedicsDatasourceRemoteImpl(), export: true),
     Bind.lazySingleton((i) => MedicDatasourceImpl(i(), i()), export: true),

@@ -5,8 +5,7 @@ import 'package:medicos_module/presenter/bloc/add_medical_center/add_medical_cen
 
 import 'add_medical_center_event.dart';
 
-class AddMedicalCenterBloc
-    extends Bloc<AddMedicalCenterEvent, AddMedicalCenterState> {
+class AddMedicalCenterBloc extends Bloc<AddMedicalCenterEvent, AddMedicalCenterState> {
   final AddMedicalCenterUsecase usecase = Modular.get();
 
   AddMedicalCenterBloc() : super(AddMedicalCenterInitialState()) {

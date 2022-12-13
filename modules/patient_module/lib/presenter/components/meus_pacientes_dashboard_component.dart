@@ -45,7 +45,10 @@ class MeusPacientesDashboardComponent extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           Modular.to.pushNamed("./meus_pacientes",
-                              arguments: state.list);
+                              arguments: {
+                            "list":state.list,
+                            "id" : id
+                              });
                         },
                         child: const Text("Ver mais"),
                       )
@@ -60,7 +63,7 @@ class MeusPacientesDashboardComponent extends StatelessWidget {
                     itemCount: state.list.length,
                     itemBuilder: (context, index) {
                       var item = state.list[index];
-                      return PatientCard(pacienteEntity: item);
+                      return PatientCard(pacienteEntity: item, userId: id);
                     },
                   ),
                 ),

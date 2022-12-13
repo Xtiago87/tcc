@@ -15,7 +15,7 @@ class GetAllMedicalCentersDatasourceRemoteImpl
       final Dio dio = await getDio;
 
       final response = await dio.get(
-          'api/v1/pacient/medical_center'
+          'api/v1/medic/medical_center'
       );
 
       return MedicalCenterMapper.listFromJson(response.data);

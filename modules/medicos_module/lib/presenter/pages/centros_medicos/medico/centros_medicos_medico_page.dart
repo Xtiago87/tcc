@@ -2,7 +2,9 @@ import 'package:core_module/presenter/components/sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:medicos_module/domain/entities/medical_center_form_entity.dart';
 import 'package:medicos_module/presenter/bloc/add_medical_center/add_medical_center_bloc.dart';
+import 'package:medicos_module/presenter/bloc/add_medical_center/add_medical_center_event.dart';
 import 'package:medicos_module/presenter/bloc/add_medical_center/add_medical_center_state.dart';
 import 'package:medicos_module/presenter/bloc/medical_center/medical_center_states.dart';
 
@@ -31,6 +33,7 @@ class _CentrosMedicosMedicoPageState extends State<CentrosMedicosMedicoPage> {
       TextEditingController();
   final AddMedicalCenterBloc addMedicalCenterBloc =
       Modular.get<AddMedicalCenterBloc>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -107,147 +110,160 @@ class _CentrosMedicosMedicoPageState extends State<CentrosMedicosMedicoPage> {
                     height: MediaQuery.of(context).size.height / 2,
                     color: Colors.white,
                     child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                              right: 16,
-                              top: 24,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Nome",
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
+                      child: Form(
+                        key: _formKey,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Center(child: Padding(
+                                padding: EdgeInsets.only(right: 16, left: 16,top: 8),
+                                child: Text("Preencha os campos abaixo para adicionar um novo centro médico", style: TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center,),
+                              )),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16,
+                                  top: 16,
                                 ),
-                                const SizedBox(
-                                  height: 8,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Nome",
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    TextFormField(
+                                      controller: textEditingControllerCentro,
+                                      obscureText: false,
+                                      style: const TextStyle(color: Colors.black),
+                                      validator: (value) {
+                                        if (value != null && value.isEmpty) {
+                                          return "Campo não pode estar vazio";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                            const EdgeInsets.only(left: 12),
+                                        hintText: "Digite o nome do centro médico",
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                TextFormField(
-                                  controller: textEditingControllerCentro,
-                                  obscureText: false,
-                                  style: const TextStyle(color: Colors.black),
-                                  validator: (value) {
-                                    if (value != null && value.isEmpty) {
-                                      return "Campo não pode estar vazio";
-                                    }
-                                    return null;
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16,
+                                  top: 24,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Endereço",
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    TextFormField(
+                                      controller: textEditingControllerEndereco,
+                                      obscureText: false,
+                                      style: const TextStyle(color: Colors.black),
+                                      validator: (value) {
+                                        if (value != null && value.isEmpty) {
+                                          return "Campo não pode estar vazio";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                            const EdgeInsets.only(left: 12),
+                                        hintText:
+                                            "Digite o enedereço do centro médico",
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16,
+                                  top: 24,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Plano de saúde",
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    TextFormField(
+                                      controller: textEditingControllerPlano,
+                                      obscureText: false,
+                                      style: const TextStyle(color: Colors.black),
+                                      validator: (value) {
+                                        if (value != null && value.isEmpty) {
+                                          return "Campo não pode estar vazio";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                            const EdgeInsets.only(left: 12),
+                                        hintText: "Digite o plano de saúde",
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: ElevatedButton(
+                                  child: const Text('Salvar'),
+                                  onPressed: () {
+                                    addMedicalCenterBloc.add(AddMedicalCenterEvent(MedicalCenterFormEntity(nome: textEditingControllerCentro.text, endereco: textEditingControllerEndereco.text, planoDeSaude: textEditingControllerPlano.text)));
+                                    Navigator.pop(context);
                                   },
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding:
-                                        const EdgeInsets.only(left: 12),
-                                    hintText: "Digite o nome do centro médico",
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                              right: 16,
-                              top: 24,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Endereço",
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                TextFormField(
-                                  controller: textEditingControllerEndereco,
-                                  obscureText: false,
-                                  style: const TextStyle(color: Colors.black),
-                                  validator: (value) {
-                                    if (value != null && value.isEmpty) {
-                                      return "Campo não pode estar vazio";
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding:
-                                        const EdgeInsets.only(left: 12),
-                                    hintText:
-                                        "Digite o enedereço do centro médico",
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                              right: 16,
-                              top: 24,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Plano de saúde",
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                TextFormField(
-                                  controller: textEditingControllerPlano,
-                                  obscureText: false,
-                                  style: const TextStyle(color: Colors.black),
-                                  validator: (value) {
-                                    if (value != null && value.isEmpty) {
-                                      return "Campo não pode estar vazio";
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding:
-                                        const EdgeInsets.only(left: 12),
-                                    hintText: "Digite o plano de saúde",
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          ElevatedButton(
-                            child: const Text('Salvar'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

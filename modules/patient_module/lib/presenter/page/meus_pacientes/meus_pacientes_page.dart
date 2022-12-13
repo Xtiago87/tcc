@@ -6,8 +6,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../components/paciente_card.dart';
 
 class MeusPacientesPage extends StatefulWidget {
-  MeusPacientesPage({Key? key, required this.list}) : super(key: key);
+  MeusPacientesPage({Key? key, required this.list, required this.id}) : super(key: key);
+  final int id;
   final List<PacienteEntity> list;
+
 
   @override
   _MeusPacientesPageState createState() => _MeusPacientesPageState();
@@ -58,6 +60,7 @@ class _MeusPacientesPageState extends State<MeusPacientesPage> {
               var item = widget.list[index];
               return PatientCard(
                 pacienteEntity: item,
+                userId: widget.id,
               );
             },
           ),

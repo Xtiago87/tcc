@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PacientePerfilComponent extends StatefulWidget {
-  const PacientePerfilComponent({Key? key}) : super(key: key);
+
+  final String nome;
+  final String email;
+
+  const PacientePerfilComponent({Key? key, required this.nome, required this.email}) : super(key: key);
+
 
   @override
   _PacientePerfilComponentState createState() =>
@@ -23,8 +28,8 @@ class _PacientePerfilComponentState extends State<PacientePerfilComponent> {
         const SizedBox(
           height: 8,
         ),
-        const Text(
-          "Daniel Saraiva",
+        Text(
+          widget.nome,
           textAlign: TextAlign.center,
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.w400),
@@ -35,34 +40,13 @@ class _PacientePerfilComponentState extends State<PacientePerfilComponent> {
         Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: Row(
-            children: const [
-              Icon(Icons.phone_outlined),
-              SizedBox(
+            children: [
+             const Icon(Icons.alternate_email_outlined),
+              const SizedBox(
                 width: 8,
               ),
               Text(
-                "(85) 91824-8321",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Row(
-            children: const [
-              Icon(Icons.alternate_email_outlined),
-              SizedBox(
-                width: 8,
-              ),
-              Text(
-                "daniel.saraiva@email.com",
+                widget.email,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,

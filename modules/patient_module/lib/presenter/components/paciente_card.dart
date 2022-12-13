@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class PatientCard extends StatelessWidget {
+  final int userId;
   final PacienteEntity pacienteEntity;
 
-  const PatientCard({super.key, required this.pacienteEntity});
+  const PatientCard({super.key, required this.pacienteEntity, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,10 @@ class PatientCard extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
-          Modular.to.pushNamed("./detalhes_paciente");
+          Modular.to.pushNamed("./detalhes_paciente", arguments: {
+            "pacientId" : pacienteEntity.id,
+           "userId" : userId
+          });
         },
         child: Card(
           elevation: 4,

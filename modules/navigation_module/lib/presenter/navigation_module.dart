@@ -1,3 +1,4 @@
+import 'package:chat_module/presenter/page/chat_page.dart';
 import 'package:core_module/presenter/core_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:login_module/presenter/login_module.dart';
@@ -15,8 +16,13 @@ import 'package:perfil_module/presenter/perfil_module.dart';
 
 class NavigationModule extends Module {
   @override
-  List<Module> get imports =>
-      [PerfilModule(), MedicosModule(), LoginModule(), PatientModule(), CoreModule()];
+  List<Module> get imports => [
+        PerfilModule(),
+        MedicosModule(),
+        LoginModule(),
+        PatientModule(),
+        CoreModule()
+      ];
 
   @override
   List<Bind<Object>> get binds => [];
@@ -53,19 +59,24 @@ class NavigationModule extends Module {
         ),
         ChildRoute(
           "/meus_medicos",
-          child: (context, args) => MeusMedicosPage(list: args.data["list"], id: args.data["id"]),
+          child: (context, args) =>
+              MeusMedicosPage(list: args.data["list"], id: args.data["id"]),
         ),
         ChildRoute(
           "/detalhes_paciente",
-          child: (context, args) => const DetalhesPacientePage(),
+          child: (context, args) => DetalhesPacientePage(pacientId: args.data["pacientId"],userId: args.data["userId"]),
         ),
         ChildRoute(
           "/meus_pacientes",
-          child: (context, args) => MeusPacientesPage(list: args.data),
+          child: (context, args) => MeusPacientesPage(list: args.data["list"], id: args.data["id"],),
         ),
         ChildRoute(
           "/meus_centros_medicos",
           child: (context, args) => const CentrosMedicosMedicoPage(),
+        ),
+        ChildRoute(
+          "/chat",
+          child: (context, args) => ChatPage(),
         ),
       ];
 }

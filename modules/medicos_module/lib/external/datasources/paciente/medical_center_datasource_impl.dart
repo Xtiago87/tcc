@@ -1,5 +1,6 @@
 import 'package:core_module/domain/error/failure.dart';
 import 'package:medicos_module/infra/datasource/imedical_center_datasource.dart';
+import 'package:medicos_module/infra/datasource/remote/iadd_medical_center_datasource_remote.dart';
 import 'package:medicos_module/infra/datasource/remote/iget_all_medical_centers_datasource_remote.dart';
 import 'package:medicos_module/infra/datasource/remote/iget_medical_center_details_datasource_remote.dart';
 import 'package:medicos_module/infra/model/medic_model.dart';
@@ -10,8 +11,9 @@ class MedicalCenterDatasourceImpl extends IMedicalCenterDatasource{
 
   final IGetMedicalCenterDetailsDatasourceRemote iGetMedicalCenterDetailsDatasourceRemote;
   final IGetAllMedicalCentersDatasoureRemote iGetAllMedicalCentersDatasoureRemote;
+  final IAddMedicalCenterDatasourceRemote iAddMedicalCenterDatasourceRemote;
 
-  MedicalCenterDatasourceImpl(this.iGetMedicalCenterDetailsDatasourceRemote, this.iGetAllMedicalCentersDatasoureRemote);
+  MedicalCenterDatasourceImpl(this.iGetMedicalCenterDetailsDatasourceRemote, this.iGetAllMedicalCentersDatasoureRemote, this.iAddMedicalCenterDatasourceRemote);
 
 
 
@@ -36,7 +38,7 @@ class MedicalCenterDatasourceImpl extends IMedicalCenterDatasource{
   @override
   Future addMedicalCenter(form) async {
     try{
-      return await iGetAllMedicalCentersDatasoureRemote.getAllMedicalCenters();
+      return await iAddMedicalCenterDatasourceRemote.addMedicalCenter(form);
     } on Failure {
       rethrow;
     }

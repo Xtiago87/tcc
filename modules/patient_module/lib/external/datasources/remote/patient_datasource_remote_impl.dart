@@ -25,16 +25,16 @@ class PatientDatasourceRemoteImpl extends IPatientDatasourceRemoteImpl{
   }
 
   @override
-  Future<PacienteModel> getPatientDetails() async {
+  Future<DetalhesPacienteModel> getPatientDetails(int id, int pacienteId) async {
     try {
 
       final Dio dio = await getDio;
 
       final response = await dio.get(
-        'api/v1/pacient/medical_center/',
-      );
+        'api/v1/medic/pacient/$id/3',
+         );
 
-      return <PacienteModel>[].first;
+      return PacienteMapper.detalhesPacienteModelFromJson(response.data);
     } on DioError catch (e) {
       throw Failure(errorMessage: e.message);
     }

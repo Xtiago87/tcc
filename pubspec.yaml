@@ -69,6 +69,7 @@ flutter:
     - assets/images/medic_medical_center_button.png
     - assets/images/add_patient_button.png
     - assets/images/add_medic_button.png
+    - assets/images/chatbot_perfil.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

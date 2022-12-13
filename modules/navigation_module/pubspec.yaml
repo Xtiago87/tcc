@@ -22,6 +22,8 @@ dependencies:
     path: ../core_module
   patient_module:
     path: ../patient_module
+  chat_module:
+    path: ../chat_module
   flutter_bloc: ^8.1.1
 
 dev_dependencies:

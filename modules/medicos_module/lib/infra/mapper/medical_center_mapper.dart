@@ -26,7 +26,7 @@ class MedicalCenterMapper {
       "medical_center":
       {
         "name": medicalCenterFormModel.nome,
-        "adress ": medicalCenterFormModel.endereco,
+        "adress": medicalCenterFormModel.endereco,
         "health_plan": medicalCenterFormModel.planoDeSaude
       }
     };
