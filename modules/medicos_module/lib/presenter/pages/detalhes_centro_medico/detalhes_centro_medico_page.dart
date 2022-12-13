@@ -8,19 +8,31 @@ import 'package:medicos_module/presenter/components/medico_card.dart';
 
 import '../../bloc/medical_center_detail/medical_center_detail_event.dart';
 
-class DetalhesCentroMedico extends StatelessWidget {
+class DetalhesCentroMedico extends StatefulWidget {
   DetalhesCentroMedico({super.key, required this.id});
 
-  final ScrollController scrollController = ScrollController();
-  final MedicalCenterDetailBloc medicalCenterDetailBloc = Modular.get<MedicalCenterDetailBloc>();
   final int id;
 
+  @override
+  State<DetalhesCentroMedico> createState() => _DetalhesCentroMedicoState();
+}
+
+class _DetalhesCentroMedicoState extends State<DetalhesCentroMedico> {
+  final ScrollController scrollController = ScrollController();
+
+  final MedicalCenterDetailBloc medicalCenterDetailBloc = Modular.get<MedicalCenterDetailBloc>();
+
+  @override
+  void dispose() {
+    Modular.dispose<MedicalCenterDetailBloc>();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocProvider<MedicalCenterDetailBloc>(
-        create: (context) => medicalCenterDetailBloc..add(GetMedicalCenterDetailEvent(id)),
+        create: (context) => medicalCenterDetailBloc..add(GetMedicalCenterDetailEvent(widget.id)),
         child: BlocConsumer<MedicalCenterDetailBloc, MedicalCenterDetailState>(
           listener: (context, state) {
 

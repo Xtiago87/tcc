@@ -37,6 +37,8 @@ class _CentrosMedicosMedicoPageState extends State<CentrosMedicosMedicoPage> {
 
   @override
   void dispose() {
+    Modular.get<AddMedicalCenterBloc>();
+    Modular.get<MedicalCenterBloc>();
     super.dispose();
   }
 

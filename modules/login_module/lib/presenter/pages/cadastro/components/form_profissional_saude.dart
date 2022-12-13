@@ -1,22 +1,39 @@
 import 'package:core_module/core_module.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:login_module/domain/entities/medico_cadastro_form_entity.dart';
 import 'package:login_module/presenter/bloc/cadastro_medico/cadastro_medico_bloc.dart';
 import 'package:login_module/presenter/bloc/cadastro_medico/cadastro_medico_event.dart';
 
-class FormProfissionalDaSaude extends StatelessWidget {
+class FormProfissionalDaSaude extends StatefulWidget {
+  final CadastroMedicoBloc cadastroMedicoBloc;
+
+
+  FormProfissionalDaSaude({Key? key, required this.cadastroMedicoBloc})
+      : super(key: key);
+
+  @override
+  State<FormProfissionalDaSaude> createState() => _FormProfissionalDaSaudeState();
+}
+
+class _FormProfissionalDaSaudeState extends State<FormProfissionalDaSaude> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController textEditingControllerNome =
       TextEditingController();
+
   final TextEditingController textEditingControllerCPF =
       TextEditingController();
+
   final TextEditingController textEditingControllerEmail =
       TextEditingController();
+
   final TextEditingController textEditingControllerSenha =
       TextEditingController();
+
   final TextEditingController textEditingControllerConfirmarSenha =
       TextEditingController();
+
   final TextEditingController textEditingControllerDataNasc =
       TextEditingController();
 
@@ -26,10 +43,8 @@ class FormProfissionalDaSaude extends StatelessWidget {
   final TextEditingController textEditingControllerEspecialidade =
       TextEditingController();
 
-  final CadastroMedicoBloc cadastroMedicoBloc;
-
-  FormProfissionalDaSaude({Key? key, required this.cadastroMedicoBloc})
-      : super(key: key);
+  final ValueNotifier<bool> check = ValueNotifier(false);
+  final ValueNotifier<bool> senhaVisibility = ValueNotifier(true);
 
   @override
   Widget build(BuildContext context) {
@@ -180,23 +195,33 @@ class FormProfissionalDaSaude extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                TextFormField(
-                  controller: textEditingControllerSenha,
-                  obscureText: true,
-                  style: const TextStyle(color: Colors.black),
-                  validator: (value) {
-                    if (value != null && value.isEmpty) {
-                      return "Campo não pode estar vazio";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.only(left: 12),
-                    hintText: "Digite sua senha",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)),
+                ValueListenableBuilder(
+                  valueListenable: senhaVisibility,
+                  builder:(context, value, child) => TextFormField(
+                    controller: textEditingControllerSenha,
+                    obscureText: senhaVisibility.value,
+                    style: const TextStyle(color: Colors.black),
+                    validator: (value) {
+                      if (value != null && value.isEmpty) {
+                        return "Campo não pode estar vazio";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      suffixIcon: IconButton(onPressed: () {
+                        senhaVisibility.value = !senhaVisibility.value;
+
+                      }, icon: Icon(
+                        senhaVisibility.value
+                      ? Icons.visibility_off
+                      : Icons.visibility,)),
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.only(left: 12),
+                      hintText: "Digite sua senha",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
                   ),
                 ),
               ],
@@ -264,6 +289,24 @@ class FormProfissionalDaSaude extends StatelessWidget {
                 ),
                 TextFormField(
                   controller: textEditingControllerDataNasc,
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context, initialDate: DateTime.now(),
+                        firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                        lastDate: DateTime(2101)
+                    );
+                    if(pickedDate != null ){
+                      print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                      print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                      //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                        textEditingControllerDataNasc.text = formattedDate; //set output date to TextField value.
+                      });
+                    }
+                  },
                   obscureText: false,
                   style: const TextStyle(color: Colors.black),
                   validator: (value) {
@@ -371,26 +414,31 @@ class FormProfissionalDaSaude extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: true,
-              onChanged: (value) {},
-              title: RichText(
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Para concluir seu cadasto basta ",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 160, 160, 160),
+            child: ValueListenableBuilder(
+              valueListenable: check,
+              builder:(context, value, child) => CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                value: check.value,
+                onChanged: (value) {
+                  check.value = !check.value;
+                },
+                title: RichText(
+                  text: const TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Para concluir seu cadasto basta ",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 160, 160, 160),
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: "aceitar os termos",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 46, 134, 218),
-                      ),
-                    )
-                  ],
+                      TextSpan(
+                        text: "aceitar os termos",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 46, 134, 218),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -403,15 +451,17 @@ class FormProfissionalDaSaude extends StatelessWidget {
             height: 50,
             child: ElevatedButton(
               onPressed: () {
-                cadastroMedicoBloc.add(CadastroMedicoValidationEvent(
-                    medicoCadastroFormEntity: MedicoCadastroFormEntity(
-                  crm: textEditingControllerCrm.text,
-                  email: textEditingControllerEmail.text,
-                  fullName: textEditingControllerNome.text,
-                  password: textEditingControllerSenha.text,
-                  photo: "",
-                  speciality: textEditingControllerEspecialidade.text,
-                )));
+                if(check.value & _formKey.currentState!.validate()){
+                  widget.cadastroMedicoBloc.add(CadastroMedicoValidationEvent(
+                      medicoCadastroFormEntity: MedicoCadastroFormEntity(
+                        crm: textEditingControllerCrm.text,
+                        email: textEditingControllerEmail.text,
+                        fullName: textEditingControllerNome.text,
+                        password: textEditingControllerSenha.text,
+                        photo: "",
+                        speciality: textEditingControllerEspecialidade.text,
+                      )));
+                }
               },
               child: const Text("Solicitar cadastro"),
             ),

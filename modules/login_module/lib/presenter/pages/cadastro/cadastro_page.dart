@@ -27,6 +27,8 @@ class _CadastroPageState extends State<CadastroPage> {
   final CadastroMedicoBloc cadastroMedicoBloc = Modular.get<CadastroMedicoBloc>();
   @override
   void dispose() {
+    Modular.dispose<CadastroMedicoBloc>();
+    Modular.dispose<CadastroPacienteBloc>();
     super.dispose();
   }
   @override

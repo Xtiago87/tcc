@@ -1,4 +1,4 @@
-import 'package:chat_module/presenter/page/chat_page.dart';
+import 'package:chat_module/presenter/page/chat/chat_page.dart';
 import 'package:core_module/presenter/core_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:login_module/presenter/login_module.dart';
@@ -13,6 +13,7 @@ import 'package:patient_module/presenter/module/patient_module.dart';
 import 'package:patient_module/presenter/page/detalhes_paciente/detalhes_paciente_page.dart';
 import 'package:perfil_module/perfil_module.dart';
 import 'package:perfil_module/presenter/perfil_module.dart';
+import 'package:chat_module/chat_module.dart';
 
 class NavigationModule extends Module {
   @override
@@ -21,7 +22,8 @@ class NavigationModule extends Module {
         MedicosModule(),
         LoginModule(),
         PatientModule(),
-        CoreModule()
+        CoreModule(),
+        ChatModule(),
       ];
 
   @override

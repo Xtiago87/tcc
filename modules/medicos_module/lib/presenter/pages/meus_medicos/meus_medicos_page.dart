@@ -9,14 +9,29 @@ import 'package:medicos_module/presenter/components/medico_card.dart';
 
 import '../../../domain/entities/medic_entity.dart';
 
-class MeusMedicosPage extends StatelessWidget {
+class MeusMedicosPage extends StatefulWidget {
   MeusMedicosPage({super.key, required this.list, required this.id});
 
-  final ScrollController scrollController = ScrollController();
   final List<MedicEntity> list;
   final String id;
+
+  @override
+  State<MeusMedicosPage> createState() => _MeusMedicosPageState();
+}
+
+class _MeusMedicosPageState extends State<MeusMedicosPage> {
+  final ScrollController scrollController = ScrollController();
+
   final TextEditingController textEditingController = TextEditingController();
+
   final AddMedicBloc addMedicBloc = Modular.get<AddMedicBloc>();
+
+
+  @override
+  void dispose() {
+    Modular.dispose<AddMedicBloc>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +65,7 @@ class MeusMedicosPage extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       addMedicBloc
-                          .add(AddMedicEvent(textEditingController.text, id));
+                          .add(AddMedicEvent(textEditingController.text, widget.id));
                       Modular.to.pop();
                     },
                     child: const Text("Enviar solicitação"),
@@ -67,6 +82,7 @@ class MeusMedicosPage extends StatelessWidget {
         create: (context) => addMedicBloc,
         child: BlocListener<AddMedicBloc, AddMedicState>(
           listener: (context, state) {
+
             if (state is AddMedicLoadingState) {
               showDialog(
                 context: context,
@@ -104,6 +120,7 @@ class MeusMedicosPage extends StatelessWidget {
               Modular.to.pop();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage), backgroundColor: Colors.red,));
             }
+
           },
           child: SliverScrollView(
             scrollController: scrollController,
@@ -135,13 +152,13 @@ class MeusMedicosPage extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   fontSize: 20),
             ),
-            body: list.isNotEmpty ? ListView.builder(
+            body: widget.list.isNotEmpty ? ListView.builder(
               padding: const EdgeInsets.only(left: 16, right: 16),
-              itemCount: list.length,
+              itemCount: widget.list.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                var item = list[index];
+                var item = widget.list[index];
                 return MedicoCard(
                   medicEntity: item,
                 );

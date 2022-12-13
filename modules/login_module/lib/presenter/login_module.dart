@@ -7,7 +7,6 @@ import 'package:login_module/external/datasources/cadastro_datasource_impl.dart'
 import 'package:login_module/external/datasources/login_datasource_impl.dart';
 import 'package:login_module/external/datasources/remote/cadastro_medico_datasource_remote_impl.dart';
 import 'package:login_module/external/datasources/remote/login_datasource_remote_impl.dart';
-import 'package:login_module/infra/datasources/remote/icadastro_paciente_datasource_remote.dart';
 import 'package:login_module/infra/repositories/cadastro_repository_impl.dart';
 import 'package:login_module/infra/repositories/login_repository_impl.dart';
 import 'package:login_module/presenter/bloc/cadastro_medico/cadastro_medico_bloc.dart';

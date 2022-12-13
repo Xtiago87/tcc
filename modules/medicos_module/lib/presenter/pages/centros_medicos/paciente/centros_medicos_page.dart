@@ -23,6 +23,7 @@ class _CentrosMedicosPageState extends State<CentrosMedicosPage> {
 
   @override
   void dispose() {
+    Modular.dispose<MedicalCenterBloc>();
     super.dispose();
   }
 

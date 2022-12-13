@@ -23,8 +23,11 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController textEditingControllerSenha =
       TextEditingController();
 
+  final ValueNotifier<bool> senhaVisibility = ValueNotifier(true);
+
   @override
   void dispose() {
+    Modular.dispose<LoginBloc>();
     super.dispose();
   }
 
@@ -254,30 +257,40 @@ class _LoginPageState extends State<LoginPage> {
                                             const SizedBox(
                                               height: 8,
                                             ),
-                                            TextFormField(
-                                              controller:
-                                                  textEditingControllerSenha,
-                                              obscureText: true,
-                                              style: const TextStyle(
-                                                  color: Colors.black),
-                                              validator: (value) {
-                                                if (value != null &&
-                                                    value.isEmpty) {
-                                                  return "Campo não pode estar vazio";
-                                                }
-                                                return null;
-                                              },
-                                              decoration: InputDecoration(
-                                                filled: true,
-                                                fillColor: Colors.white,
-                                                contentPadding:
-                                                    const EdgeInsets.only(
-                                                        left: 12),
-                                                hintText: "Digite sua senha",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
+                                            ValueListenableBuilder(
+                                              valueListenable: senhaVisibility,
+                                              builder:(context, value, child) => TextFormField(
+                                                controller:
+                                                    textEditingControllerSenha,
+                                                obscureText: senhaVisibility.value,
+                                                style: const TextStyle(
+                                                    color: Colors.black),
+                                                validator: (value) {
+                                                  if (value != null &&
+                                                      value.isEmpty) {
+                                                    return "Campo não pode estar vazio";
+                                                  }
+                                                  return null;
+                                                },
+                                                decoration: InputDecoration(
+                                                  suffixIcon: IconButton(onPressed: () {
+                                                    senhaVisibility.value = !senhaVisibility.value;
+
+                                                  }, icon: Icon(
+                                                    senhaVisibility.value
+                                                        ? Icons.visibility_off
+                                                        : Icons.visibility,)),
+                                                  filled: true,
+                                                  fillColor: Colors.white,
+                                                  contentPadding:
+                                                      const EdgeInsets.only(
+                                                          left: 12),
+                                                  hintText: "Digite sua senha",
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                ),
                                               ),
                                             ),
                                           ],

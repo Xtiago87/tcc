@@ -11,23 +11,32 @@ import '../../bloc/detalhes_paciente/detalhes_paciente_bloc.dart';
 class DetalhesPacientePage extends StatefulWidget {
   final int pacientId;
   final int userId;
-  const DetalhesPacientePage({Key? key, required this.pacientId, required this.userId}) : super(key: key);
+
+  const DetalhesPacientePage(
+      {Key? key, required this.pacientId, required this.userId})
+      : super(key: key);
 
   @override
   _DetalhesPacientePageState createState() => _DetalhesPacientePageState();
 }
 
 class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
-
   final ScrollController scrollController = ScrollController();
-  final DetalhesPacienteBloc detalhesPacienteBloc = Modular.get<DetalhesPacienteBloc>();
+  final DetalhesPacienteBloc detalhesPacienteBloc =
+      Modular.get<DetalhesPacienteBloc>();
 
+  @override
+  void dispose() {
+    Modular.dispose<DetalhesPacienteBloc>();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocProvider<DetalhesPacienteBloc>(
-        create: (context) => detalhesPacienteBloc..add(GetDetalhesPaciente(widget.pacientId, widget.userId)),
+        create: (context) => detalhesPacienteBloc
+          ..add(GetDetalhesPaciente(widget.pacientId, widget.userId)),
         child: SafeArea(
           child: SliverScrollView(
             hasPaddingLeft: true,
@@ -43,35 +52,54 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
             ),
             title: const Text(
               "Detalhes do paciente",
-              style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.normal),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal),
               overflow: TextOverflow.ellipsis,
             ),
             scrollController: scrollController,
             body: BlocConsumer<DetalhesPacienteBloc, DetalhesPacienteState>(
-              listener: (context, state) {
-
-              },
-              builder:(context, state) {
-
-                if(state is DetalhesPacienteSuccessState){
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is DetalhesPacienteSuccessState) {
                   return ListView(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     children: [
-                      PacientePerfilComponent(nome: state.detalhesPacienteEntity.fullName, email: state.detalhesPacienteEntity.email),
+                      PacientePerfilComponent(
+                          nome: state.detalhesPacienteEntity.fullName,
+                          email: state.detalhesPacienteEntity.email),
                       const Padding(
                         padding: EdgeInsets.only(left: 16.0, right: 16),
                         child: Text(
                           "Doenças",
-                          style: TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.normal),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.normal),
                         ),
                       ),
+                      if (state.detalhesPacienteEntity.illnessList.isEmpty &&
+                          state.detalhesPacienteEntity.familyIllnesslist.isEmpty)
+                       const Padding(
+                            padding: EdgeInsets.only(left: 16.0, right: 16),
+                            child: Center(
+                                child: Text(
+                              "Paciente ainda não cadastrou nenhuma doença",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.normal),
+                            ))),
                       ListView.builder(
                         shrinkWrap: true,
-                        itemCount: state.detalhesPacienteEntity.illnessList.length,
+                        itemCount:
+                            state.detalhesPacienteEntity.illnessList.length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          var item = state.detalhesPacienteEntity.illnessList[index];
+                          var item =
+                              state.detalhesPacienteEntity.illnessList[index];
                           return Padding(
                             padding: const EdgeInsets.only(
                                 bottom: 4.0, left: 16, right: 16, top: 4),
@@ -82,15 +110,25 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: Center(child: Text(item.name, style: const TextStyle(color: Colors.blue),)),
+                                      title: Center(
+                                          child: Text(
+                                        item.name,
+                                        style:
+                                            const TextStyle(color: Colors.blue),
+                                      )),
                                       content: Wrap(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 0.0),
-                                            child: Text("Sintomas: ${item.symptoms}", style: const TextStyle(color: Colors.black),),
+                                            padding:
+                                                const EdgeInsets.only(top: 0.0),
+                                            child: Text(
+                                              "Sintomas: ${item.symptoms}",
+                                              style: const TextStyle(
+                                                  color: Colors.black),
+                                            ),
                                           ),
                                         ],
-                                      ) ,
+                                      ),
                                     );
                                   },
                                 );
@@ -107,21 +145,28 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                     color: Colors.transparent,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             padding: const EdgeInsets.only(
-                                                left: 8, right: 8, top: 4, bottom: 4),
+                                                left: 8,
+                                                right: 8,
+                                                top: 4,
+                                                bottom: 4),
                                             decoration: const BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(15)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
                                               gradient: LinearGradient(
                                                 colors: [
-                                                  Color.fromARGB(255, 67, 136, 255),
-                                                  Color.fromARGB(255, 90, 202, 226),
+                                                  Color.fromARGB(
+                                                      255, 67, 136, 255),
+                                                  Color.fromARGB(
+                                                      255, 90, 202, 226),
                                                 ],
                                                 begin: Alignment.centerLeft,
                                                 end: Alignment.centerRight,
@@ -130,15 +175,17 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                             child: Text(
                                               //TODO
                                               "Hoje - ${item.date}",
-                                              style: const TextStyle(color: Colors.white),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ),
                                           const SizedBox(
                                             height: 8,
                                           ),
                                           Row(
-                                            children:  [
-                                              const Icon(Icons.coronavirus_outlined),
+                                            children: [
+                                              const Icon(
+                                                  Icons.coronavirus_outlined),
                                               const SizedBox(
                                                 width: 8,
                                               ),
@@ -147,7 +194,8 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16,
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               )
                                             ],
                                           ),
@@ -165,7 +213,8 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                                 style: TextStyle(
                                                     color: Colors.blue,
                                                     fontSize: 16,
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               )
                                             ],
                                           ),
@@ -174,7 +223,8 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                       const Icon(
                                         Icons.arrow_forward_ios_rounded,
                                         size: 48,
-                                        color: Color.fromARGB(255, 160, 160, 160),
+                                        color:
+                                            Color.fromARGB(255, 160, 160, 160),
                                       )
                                     ],
                                   ),
@@ -186,10 +236,12 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                       ),
                       ListView.builder(
                         shrinkWrap: true,
-                        itemCount: state.detalhesPacienteEntity.familyIllnesslist.length,
+                        itemCount: state
+                            .detalhesPacienteEntity.familyIllnesslist.length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          var item = state.detalhesPacienteEntity.familyIllnesslist[index];
+                          var item = state
+                              .detalhesPacienteEntity.familyIllnesslist[index];
                           return Padding(
                             padding: const EdgeInsets.only(
                                 bottom: 4.0, left: 16, right: 16, top: 4),
@@ -200,15 +252,25 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: Center(child: Text(item.name, style: const TextStyle(color: Colors.blue),)),
+                                      title: Center(
+                                          child: Text(
+                                        item.name,
+                                        style:
+                                            const TextStyle(color: Colors.blue),
+                                      )),
                                       content: Wrap(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 0.0),
-                                            child: Text("Sintomas: ${item.symptoms}", style: const TextStyle(color: Colors.black),),
+                                            padding:
+                                                const EdgeInsets.only(top: 0.0),
+                                            child: Text(
+                                              "Sintomas: ${item.symptoms}",
+                                              style: const TextStyle(
+                                                  color: Colors.black),
+                                            ),
                                           ),
                                         ],
-                                      ) ,
+                                      ),
                                     );
                                   },
                                 );
@@ -225,21 +287,28 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                     color: Colors.transparent,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             padding: const EdgeInsets.only(
-                                                left: 8, right: 8, top: 4, bottom: 4),
+                                                left: 8,
+                                                right: 8,
+                                                top: 4,
+                                                bottom: 4),
                                             decoration: const BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(15)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
                                               gradient: LinearGradient(
                                                 colors: [
-                                                  Color.fromARGB(255, 67, 136, 255),
-                                                  Color.fromARGB(255, 90, 202, 226),
+                                                  Color.fromARGB(
+                                                      255, 67, 136, 255),
+                                                  Color.fromARGB(
+                                                      255, 90, 202, 226),
                                                 ],
                                                 begin: Alignment.centerLeft,
                                                 end: Alignment.centerRight,
@@ -248,15 +317,17 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                             child: Text(
                                               //TODO
                                               "Hoje - ${item.date}",
-                                              style: const TextStyle(color: Colors.white),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ),
                                           const SizedBox(
                                             height: 8,
                                           ),
                                           Row(
-                                            children:  [
-                                              const Icon(Icons.coronavirus_outlined),
+                                            children: [
+                                              const Icon(
+                                                  Icons.coronavirus_outlined),
                                               const SizedBox(
                                                 width: 8,
                                               ),
@@ -265,7 +336,8 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16,
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               )
                                             ],
                                           ),
@@ -283,7 +355,8 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                                 style: TextStyle(
                                                     color: Colors.blue,
                                                     fontSize: 16,
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               )
                                             ],
                                           ),
@@ -292,7 +365,8 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                       const Icon(
                                         Icons.arrow_forward_ios_rounded,
                                         size: 48,
-                                        color: Color.fromARGB(255, 160, 160, 160),
+                                        color:
+                                            Color.fromARGB(255, 160, 160, 160),
                                       )
                                     ],
                                   ),
@@ -307,15 +381,31 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                             left: 16.0, right: 16, top: 8, bottom: 8),
                         child: Text(
                           "Alergias",
-                          style: TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.normal),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.normal),
                         ),
                       ),
+                      if (state.detalhesPacienteEntity.alergyList.isEmpty)
+                        const Padding(
+                            padding: EdgeInsets.only(left: 16.0, right: 16),
+                            child: Center(
+                                child: Text(
+                              "Paciente ainda não cadastrou nenhuma doença",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.normal),
+                            ))),
                       ListView.builder(
                         shrinkWrap: true,
-                        itemCount: state.detalhesPacienteEntity.alergyList.length,
+                        itemCount:
+                            state.detalhesPacienteEntity.alergyList.length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          var item = state.detalhesPacienteEntity.alergyList[index];
+                          var item =
+                              state.detalhesPacienteEntity.alergyList[index];
                           return Padding(
                             padding: const EdgeInsets.only(
                                 bottom: 4.0, left: 16, right: 16, top: 4),
@@ -334,21 +424,28 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                     color: Colors.transparent,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             padding: const EdgeInsets.only(
-                                                left: 8, right: 8, top: 4, bottom: 4),
+                                                left: 8,
+                                                right: 8,
+                                                top: 4,
+                                                bottom: 4),
                                             decoration: const BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(15)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
                                               gradient: LinearGradient(
                                                 colors: [
-                                                  Color.fromARGB(255, 67, 136, 255),
-                                                  Color.fromARGB(255, 90, 202, 226),
+                                                  Color.fromARGB(
+                                                      255, 67, 136, 255),
+                                                  Color.fromARGB(
+                                                      255, 90, 202, 226),
                                                 ],
                                                 begin: Alignment.centerLeft,
                                                 end: Alignment.centerRight,
@@ -356,15 +453,17 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                             ),
                                             child: Text(
                                               "Hoje - ${item.date}",
-                                              style: const TextStyle(color: Colors.white),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ),
                                           const SizedBox(
                                             height: 8,
                                           ),
                                           Row(
-                                            children:  [
-                                              const Icon(Icons.coronavirus_outlined),
+                                            children: [
+                                              const Icon(
+                                                  Icons.coronavirus_outlined),
                                               const SizedBox(
                                                 width: 8,
                                               ),
@@ -373,7 +472,8 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16,
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               )
                                             ],
                                           ),

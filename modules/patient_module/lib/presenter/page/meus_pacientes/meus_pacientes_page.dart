@@ -6,10 +6,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../components/paciente_card.dart';
 
 class MeusPacientesPage extends StatefulWidget {
-  MeusPacientesPage({Key? key, required this.list, required this.id}) : super(key: key);
+  const MeusPacientesPage({Key? key, required this.list, required this.id})
+      : super(key: key);
   final int id;
   final List<PacienteEntity> list;
-
 
   @override
   _MeusPacientesPageState createState() => _MeusPacientesPageState();
@@ -50,21 +50,32 @@ class _MeusPacientesPageState extends State<MeusPacientesPage> {
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: widget.list.length,
-            itemBuilder: (context, index) {
-              var item = widget.list[index];
-              return PatientCard(
-                pacienteEntity: item,
-                userId: widget.id,
-              );
-            },
-          ),
-        ),
+        body: widget.list.isEmpty
+            ? const Padding(
+                padding: EdgeInsets.only(left: 16.0, right: 16),
+                child: Center(
+                  child: Text("Você ainda não adicionou nenhum paciente", style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18
+                  ),
+                  textAlign: TextAlign.center,),
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: widget.list.length,
+                  itemBuilder: (context, index) {
+                    var item = widget.list[index];
+                    return PatientCard(
+                      pacienteEntity: item,
+                      userId: widget.id,
+                    );
+                  },
+                ),
+              ),
       ),
     );
   }
