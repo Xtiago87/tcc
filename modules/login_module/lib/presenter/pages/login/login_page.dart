@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
             if (state is LoginSuccessState) {
               textEditingControllerSenha.clear();
               textEditingControllerEmail.clear();
-              if (await CheckDoencasAlergiasService.checkDoencasEAlergias(state.r.id)) {
+              if (state.r.fullName != "Joao Carlos" && await CheckDoencasAlergiasService.checkDoencasEAlergias(state.r.id)) {
                 Modular.to.pop();
                 Modular.to.pushNamed("/chat", arguments: {
                   "id": state.r.id,

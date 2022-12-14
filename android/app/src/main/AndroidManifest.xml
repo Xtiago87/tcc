@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.consult_health.consult_health">
    <application
-        android:label="consult_health"
+        android:label="Consult"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

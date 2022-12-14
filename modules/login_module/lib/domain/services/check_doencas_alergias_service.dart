@@ -7,7 +7,7 @@ class CheckDoencasAlergiasService{
  static Future<bool> checkDoencasEAlergias(int id) async {
     try{
       final Dio dio = Dio();
-      final response = await dio.get("https://01d2-187-18-138-176.sa.ngrok.io/api/v1/pacient/getPacient/$id");
+      final response = await dio.get("https://a2ad-200-253-187-124.sa.ngrok.io/api/v1/pacient/getPacient/$id");
       if(response.data["total"] == 0){
         return true;
       }else{

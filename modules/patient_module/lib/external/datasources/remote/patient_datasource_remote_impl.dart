@@ -31,7 +31,7 @@ class PatientDatasourceRemoteImpl extends IPatientDatasourceRemoteImpl{
       final Dio dio = await getDio;
 
       final response = await dio.get(
-        'api/v1/medic/pacient/$id/3',
+        'api/v1/medic/pacient/7',
          );
 
       return PacienteMapper.detalhesPacienteModelFromJson(response.data);

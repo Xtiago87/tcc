@@ -4,10 +4,13 @@ import 'package:core_module/presenter/components/sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:login_module/domain/entities/login_form_entity.dart';
 import 'package:login_module/presenter/bloc/cadastro_medico/cadastro_medico_bloc.dart';
 import 'package:login_module/presenter/bloc/cadastro_medico/cadastro_medico_state.dart';
 import 'package:login_module/presenter/bloc/cadastro_paciente/cadastro_paciente_bloc.dart';
 import 'package:login_module/presenter/bloc/cadastro_paciente/cadastro_paciente_state.dart';
+import 'package:login_module/presenter/bloc/login/login_bloc.dart';
+import 'package:login_module/presenter/bloc/login/login_event.dart';
 import 'package:login_module/presenter/pages/cadastro/components/form_paciente.dart';
 import 'package:login_module/presenter/pages/cadastro/components/form_profissional_saude.dart';
 
@@ -24,13 +27,17 @@ class _CadastroPageState extends State<CadastroPage> {
   final PageController pageController = PageController();
   final CadastroPacienteBloc cadastroPacienteBloc =
       Modular.get<CadastroPacienteBloc>();
-  final CadastroMedicoBloc cadastroMedicoBloc = Modular.get<CadastroMedicoBloc>();
+  final CadastroMedicoBloc cadastroMedicoBloc =
+      Modular.get<CadastroMedicoBloc>();
+  final LoginBloc loginBloc = Modular.get<LoginBloc>();
+
   @override
   void dispose() {
     Modular.dispose<CadastroMedicoBloc>();
     Modular.dispose<CadastroPacienteBloc>();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,14 +47,25 @@ class _CadastroPageState extends State<CadastroPage> {
           BlocProvider(
             create: (context) => cadastroPacienteBloc,
           ),
-          BlocProvider(create: (context) => cadastroMedicoBloc,),
+          BlocProvider(
+            create: (context) => cadastroMedicoBloc,
+          ),
         ],
         child: MultiBlocListener(
           listeners: [
             BlocListener<CadastroPacienteBloc, CadastroPacienteState>(
               listener: (context, state) {
                 if (state is CadastroPacienteSuccessState) {
-                  Modular.to.pushNamed("/dashboard");
+                  loginBloc.add(
+                    LoginValidationEvent(
+                      loginFormEntity: LoginFormEntity(
+                        email: "santos@gmail.com",
+                        senha: "12345678",
+                      ),
+                    ),
+                  );
+                  Modular.to.pushNamed("/");
+
                 }
 
                 if (state is CadastroPacienteLoadingState) {
@@ -56,24 +74,24 @@ class _CadastroPageState extends State<CadastroPage> {
                     builder: (context) {
                       return Dialog(
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: const [
-                                CircularProgressIndicator(),
-                                Flexible(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 32.0),
-                                    child: Text(
-                                      "Entrando no aplicativo...",
-                                      overflow: TextOverflow.ellipsis,
-                                      style:
-                                      TextStyle(fontSize: 16, color: Colors.black),
-                                    ),
-                                  ),
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: const [
+                            CircularProgressIndicator(),
+                            Flexible(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 32.0),
+                                child: Text(
+                                  "Entrando no aplicativo...",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black),
                                 ),
-                              ],
+                              ),
                             ),
-                          ));
+                          ],
+                        ),
+                      ));
                     },
                   );
                 }
@@ -92,6 +110,7 @@ class _CadastroPageState extends State<CadastroPage> {
               listener: (context, state) {
                 if (state is CadastroMedicoSuccessState) {
                   Modular.to.pop();
+
                   Modular.to.pushNamed("/dashboard");
                 }
 
@@ -101,28 +120,27 @@ class _CadastroPageState extends State<CadastroPage> {
                     builder: (context) {
                       return Dialog(
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: const [
-                                CircularProgressIndicator(),
-                                Flexible(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 32.0),
-                                    child: Text(
-                                      "Entrando no aplicativo...",
-                                      overflow: TextOverflow.ellipsis,
-                                      style:
-                                      TextStyle(fontSize: 16, color: Colors.black),
-                                    ),
-                                  ),
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: const [
+                            CircularProgressIndicator(),
+                            Flexible(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 32.0),
+                                child: Text(
+                                  "Entrando no aplicativo...",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black),
                                 ),
-                              ],
+                              ),
                             ),
-                          ));
+                          ],
+                        ),
+                      ));
                     },
                   );
                 }
-
 
                 if (state is CadastroMedicoFailureState) {
                   Modular.to.pop();
@@ -157,14 +175,6 @@ class _CadastroPageState extends State<CadastroPage> {
             ),
             body: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 16.0, right: 16),
-                  child: Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                    style: TextStyle(
-                        color: Colors.grey, fontWeight: FontWeight.w400),
-                  ),
-                ),
                 ValueListenableBuilder(
                   valueListenable: isMedic,
                   builder: (context, value, child) => Row(
@@ -213,7 +223,8 @@ class _CadastroPageState extends State<CadastroPage> {
                         ? FormPaciente(
                             cadastroPacienteBloc: cadastroPacienteBloc,
                           )
-                        : FormProfissionalDaSaude(cadastroMedicoBloc: cadastroMedicoBloc),
+                        : FormProfissionalDaSaude(
+                            cadastroMedicoBloc: cadastroMedicoBloc),
                   ),
                 )
               ],

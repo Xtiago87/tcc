@@ -11,7 +11,7 @@ class CadastroMedicoDatasourceRemoteImpl extends ICadastroMedicoDatasourceRemote
   Future cadastroMedico(MedicoCadastroFormEntity medicoCadastroFormEntity) async {
     try {
       final response = await Dio().post(
-        'https://3026-187-18-138-176.sa.ngrok.io/api/v1/createPacient',
+        'https://a2ad-200-253-187-124.sa.ngrok.io/api/v1/createPacient',
         data: MedicoCadastroFormMapper.medicoCadastroFormToJson(
             medicoCadastroFormEntity),
       );

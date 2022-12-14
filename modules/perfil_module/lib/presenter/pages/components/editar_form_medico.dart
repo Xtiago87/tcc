@@ -1,3 +1,4 @@
+import 'package:core_module/core_module.dart';
 import 'package:flutter/material.dart';
 
 class EditarFormMedico extends StatefulWidget {
@@ -27,7 +28,6 @@ class _EditarFormMedicoState extends State<EditarFormMedico> {
   TextEditingController();
   final TextEditingController textEditingControllerEspecialidade =
   TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {

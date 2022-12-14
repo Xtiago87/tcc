@@ -92,10 +92,11 @@ class _PerfilDashboardComponentState extends State<PerfilDashboardComponent> {
                     ),
                   );
                 } else {
-                  return CircleAvatar(
+                  return const CircleAvatar(
                     radius: 80,
                     backgroundColor: Colors.blue,
-                    backgroundImage: MemoryImage(photo == null ? base64Decode(widget.perfilEntity.photo) : photo!),
+                    backgroundImage: NetworkImage(
+                        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"),
                   );
                 }
               }),

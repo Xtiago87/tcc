@@ -18,11 +18,11 @@ class PacienteMapper {
       fullName: json["user"]["full_name"],
       password: "",
       photo: json["user"]["photo"] ?? "",
+      diagnostic: json["diagnostic"] ?? "",
     );
   }
 
-  static DetalhesPacienteModel detalhesPacienteModelFromJson(
-      Map<String, dynamic> json) {
+  static DetalhesPacienteModel detalhesPacienteModelFromJson(Map<String, dynamic> json) {
     return DetalhesPacienteModel(
       json["date_birth"],
       json["id"],
@@ -31,6 +31,7 @@ class PacienteMapper {
       illnessEntityListFromJson(json["pacient_has_illness"]),
       alergyEntityListFromJson(json["pacient_has_allergy"]),
       familyIllnessEntityListFromJson(json["pacients_family_has_illness"]),
+      json["diagnostic"] ?? ""
     );
   }
 
@@ -74,6 +75,5 @@ class PacienteMapper {
 }
 
 class DetalhesPacienteModel extends DetalhesPacienteEntity {
-  DetalhesPacienteModel(super.dataBirth, super.id, super.email, super.fullName,
-      super.illnessList, super.alergyList, super.familyIllnesslist);
+  DetalhesPacienteModel(super.dataBirth, super.id, super.email, super.fullName, super.illnessList, super.alergyList, super.familyIllnesslist, super.diagnostic);
 }

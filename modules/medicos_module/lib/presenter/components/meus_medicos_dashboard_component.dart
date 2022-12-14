@@ -24,31 +24,28 @@ class MeusMedicosDashboardComponent extends StatelessWidget {
           if (state is MeusMedicosSuccessState) {
             return Column(
               children: [
-                Visibility(
-                  visible: state.list.isNotEmpty,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Meus médicos",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Modular.to.pushNamed("./meus_medicos", arguments: {
-                              "list": state.list,
-                              "id": perfilEntity.uid
-                            });
-                          },
-                          child: const Text("Ver mais"),
-                        )
-                      ],
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Meus médicos",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Modular.to.pushNamed("./meus_medicos", arguments: {
+                            "list": state.list,
+                            "id": perfilEntity.uid
+                          });
+                        },
+                        child: const Text("Ver mais"),
+                      )
+                    ],
                   ),
                 ),
                 Padding(
@@ -65,10 +62,14 @@ class MeusMedicosDashboardComponent extends StatelessWidget {
                             );
                           },
                         )
-                      : const Text(
-                          "Você ainda não adicionou nenhum médico.",
-                          style: TextStyle(color: Colors.black),
-                        ),
+                      : const Padding(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: Text(
+                            "Você ainda não adicionou nenhum médico.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                      ),
                 )
               ],
             );

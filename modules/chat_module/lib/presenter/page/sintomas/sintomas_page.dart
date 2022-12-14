@@ -28,6 +28,17 @@ class SintomasPage extends StatefulWidget {
 class _SintomasPageState extends State<SintomasPage> {
   ValueNotifier<bool> searchVisibility = ValueNotifier(false);
   final TextEditingController textEditingController = TextEditingController();
+  List<SintomaEntity> aux = [];
+
+  @override
+  void initState() {
+    super.initState();
+    aux = widget.sintomas;
+  }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +82,29 @@ class _SintomasPageState extends State<SintomasPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       controller: textEditingController,
+                      onChanged: (value) {
+                        setState(() {
+                          aux = widget.sintomas
+                              .where((element) => element.name.contains(value))
+                              .toList();
+                        });
+                      },
                       obscureText: false,
                       textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (value) {
+
+                      },
                       style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
+                        prefixIcon: IconButton(
+                          onPressed: () {
+                            searchVisibility.value = !searchVisibility.value;
+                            setState(() {
+                              aux = widget.sintomas;
+                            });
+                          },
+                          icon: Icon(Icons.close),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                         contentPadding: const EdgeInsets.only(left: 12),
@@ -100,10 +130,10 @@ class _SintomasPageState extends State<SintomasPage> {
             ListView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.only(top: 8),
-              itemCount: widget.sintomas.length,
+              itemCount: aux.length,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                var item = widget.sintomas[index];
+                var item = aux[index];
                 return Padding(
                   padding: const EdgeInsets.only(
                       left: 8.0, right: 8, bottom: 4, top: 4),
@@ -114,27 +144,39 @@ class _SintomasPageState extends State<SintomasPage> {
                         value: item.selected,
                         onChanged: (value) {
                           if (widget.many == 0) {
-
-                            if (ChatChangeNotifier.instance.sintomasSelecionados.value.isNotEmpty && item.name == ChatChangeNotifier.instance.sintomasSelecionados.value.first) {
-                              ChatChangeNotifier.instance.sintomasSelecionados.value.removeWhere((element) => element == item.name);
+                            if (ChatChangeNotifier.instance.sintomasSelecionados
+                                    .value.isNotEmpty &&
+                                item.name ==
+                                    ChatChangeNotifier.instance
+                                        .sintomasSelecionados.value.first) {
+                              ChatChangeNotifier
+                                  .instance.sintomasSelecionados.value
+                                  .removeWhere(
+                                      (element) => element == item.name);
                             }
 
-                            if (ChatChangeNotifier.instance.sintomasSelecionados.value.isNotEmpty && item.name != ChatChangeNotifier.instance.sintomasSelecionados.value.first) {
-
+                            if (ChatChangeNotifier.instance.sintomasSelecionados
+                                    .value.isNotEmpty &&
+                                item.name !=
+                                    ChatChangeNotifier.instance
+                                        .sintomasSelecionados.value.first) {
                               for (var element in widget.sintomas) {
-                                if(element.name == ChatChangeNotifier.instance.sintomasSelecionados.value.first){
+                                if (element.name ==
+                                    ChatChangeNotifier.instance
+                                        .sintomasSelecionados.value.first) {
                                   setState(() {
                                     element.selected = false;
                                   });
                                 }
                               }
 
-                              ChatChangeNotifier.instance.sintomasSelecionados.value.clear();
+                              ChatChangeNotifier
+                                  .instance.sintomasSelecionados.value
+                                  .clear();
                             }
 
-
-
-                            if( ChatChangeNotifier.instance.sintomasSelecionados.value.isEmpty){
+                            if (ChatChangeNotifier
+                                .instance.sintomasSelecionados.value.isEmpty) {
                               setState(() {
                                 item.selected = !item.selected;
                               });
@@ -145,7 +187,6 @@ class _SintomasPageState extends State<SintomasPage> {
                                     .add(item.name);
                               }
                             }
-
                           } else {
                             if (item.selected) {
                               ChatChangeNotifier

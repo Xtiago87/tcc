@@ -1,6 +1,4 @@
-import 'package:chat_module/domain/entities/message_response_entity.dart';
 import 'package:chat_module/presenter/bloc/send_message/send_message_state.dart';
-import 'package:chat_module/presenter/page/chat/components/chat_button_options.dart';
 import 'package:chat_module/presenter/page/chat/components/chat_text_field.dart';
 import 'package:chat_module/presenter/page/chat/util/chat_change_notifier.dart';
 import 'package:chat_module/presenter/page/chat/util/chat_util.dart';
@@ -63,9 +61,9 @@ class _ChatPageState extends State<ChatPage> {
             if (state is SendMessageSuccessState) {
               hasMany = state.messageResponseEntity.many;
               if(state.messageResponseEntity.mensgesns.isNotEmpty){
-                state.messageResponseEntity.mensgesns.forEach((element) {
+                for (var element in state.messageResponseEntity.mensgesns) {
                   ChatChangeNotifier.instance.chatMessages.value.add(ChatMessageEntity(element, 0));
-                });
+                }
                 ChatChangeNotifier.instance.chatMessages.value.add(ChatMessageEntity(state.messageResponseEntity.text, 0));
               }else{
                 ChatChangeNotifier.instance.chatMessages.value.add(ChatMessageEntity(state.messageResponseEntity.text, 0));
@@ -94,6 +92,7 @@ class _ChatPageState extends State<ChatPage> {
                 ),
               );
             }
+
           },
           builder: (context, state) {
             if(widget.firstTime){

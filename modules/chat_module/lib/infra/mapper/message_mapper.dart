@@ -18,8 +18,7 @@ class MessageMapper {
   static MessageResponseModel messageResponseModelOptionsFromJson(List<dynamic> jsonList) {
     if (jsonList.length == 2 || jsonList.length == 1) {
       final MessageResponseModel messageResponseModel = MessageResponseModel(
-        text: jsonList.first["text"] +
-            (jsonList.length > 1 ? jsonList.last["text"] ?? "" : ""),
+        text: jsonList.first["text"] + (jsonList.length > 1 ? jsonList.last["text"] ?? "" : ""),
         buttons: jsonList.last["custom"] != null
             ? jsonList.last["custom"]["buttons"].cast<String>()
             : [],

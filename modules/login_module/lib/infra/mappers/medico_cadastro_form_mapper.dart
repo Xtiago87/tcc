@@ -7,7 +7,7 @@ class MedicoCadastroFormMapper{
       'email': medicoCadastroFormEntity.email,
       'full_name': medicoCadastroFormEntity.fullName,
       'password': medicoCadastroFormEntity.password,
-      'photo': medicoCadastroFormEntity.photo,
+      //'photo': medicoCadastroFormEntity.photo,
     };
 
     json['medic'] = {

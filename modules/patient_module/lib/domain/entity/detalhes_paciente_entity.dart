@@ -3,11 +3,12 @@ class DetalhesPacienteEntity {
   final int id;
   final String email;
   final String fullName;
+  final String diagnostic;
   final List<IllnessEntity> illnessList;
   final List<AlergyEntity> alergyList;
   final List<IllnessEntity> familyIllnesslist;
 
-  DetalhesPacienteEntity(this.dataBirth, this.id, this.email, this.fullName, this.illnessList, this.alergyList, this.familyIllnesslist);
+  DetalhesPacienteEntity(this.dataBirth, this.id, this.email, this.fullName, this.illnessList, this.alergyList, this.familyIllnesslist, this.diagnostic);
 }
 
 class IllnessEntity {
