@@ -15,7 +15,7 @@ class MedicMapper {
   static MedicModel medicModelFromJson(Map<String, dynamic> json) {
     return MedicModel(
       email: json['medic']['user']["email"],
-      photo: json['medic']['user']["photo"],
+      photo: json['medic']['user']["photo"] ?? "",
       name: json['medic']['user']["full_name"],
       crm: json['medic']["crm"],
       speciality: json['medic']["speciality"],

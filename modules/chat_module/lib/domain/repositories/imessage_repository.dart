@@ -6,7 +6,7 @@ import '../entities/message_response_entity.dart';
 
 abstract class IMessageRepository{
 
-  Future<Either<Failure, MessageEntity>> sendTextMessage(String text, int id);
+  Future<Either<Failure, MessageResponseEntity>> sendTextMessage(String text, int id);
 
   Future<Either<Failure, MessageResponseEntity>> sendOptionsMessage(String text, int id);
 

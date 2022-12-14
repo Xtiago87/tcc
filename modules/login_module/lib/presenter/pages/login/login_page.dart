@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:login_module/domain/entities/login_form_entity.dart';
+import 'package:login_module/domain/services/check_doencas_alergias_service.dart';
 
 import '../../bloc/login/login_bloc.dart';
 import '../../bloc/login/login_event.dart';
@@ -38,10 +39,11 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocProvider<LoginBloc>(
         create: (context) => loginBloc,
         child: BlocConsumer<LoginBloc, LoginState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is LoginLoadingState) {
               showDialog(
                 context: context,
+                barrierDismissible: false,
                 builder: (context) {
                   return Dialog(
                       child: Padding(
@@ -68,8 +70,18 @@ class _LoginPageState extends State<LoginPage> {
             }
 
             if (state is LoginSuccessState) {
-              Modular.to.pop();
-              Modular.to.navigate("/dashboard");
+              textEditingControllerSenha.clear();
+              textEditingControllerEmail.clear();
+              if (await CheckDoencasAlergiasService.checkDoencasEAlergias(state.r.id)) {
+                Modular.to.pop();
+                Modular.to.pushNamed("/chat", arguments: {
+                  "id": state.r.id,
+                  "ft": true,
+                });
+              } else {
+                Modular.to.pop();
+                Modular.to.navigate("/dashboard");
+              }
             }
 
             if (state is LoginFailureState) {
@@ -85,9 +97,7 @@ class _LoginPageState extends State<LoginPage> {
           builder: (context, state) => ValueListenableBuilder(
             valueListenable: isScrollable,
             builder: (context, value, child) => SingleChildScrollView(
-              physics: isScrollable.value
-                  ? const AlwaysScrollableScrollPhysics()
-                  : const NeverScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: SafeArea(
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
@@ -183,30 +193,79 @@ class _LoginPageState extends State<LoginPage> {
                                         right: 16,
                                         top: 24,
                                       ),
-                                      child: Focus(
-                                        onFocusChange: (value) {
-                                          isScrollable.value = value;
-                                        },
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "E-mail",
-                                              style: const TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "E-mail",
+                                            style: const TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextFormField(
+                                            controller:
+                                                textEditingControllerEmail,
+                                            obscureText: false,
+                                            textInputAction:
+                                                TextInputAction.next,
+                                            style: const TextStyle(
+                                                color: Colors.black),
+                                            validator: (value) {
+                                              if (value != null &&
+                                                  value.isEmpty) {
+                                                return "Campo não pode estar vazio";
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                              filled: true,
+                                              fillColor: Colors.white,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 12),
+                                              hintText: "Digite seu e-mail",
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
                                             ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            TextFormField(
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 16.0,
+                                        right: 16,
+                                        top: 16,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Senha",
+                                            style: const TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          ValueListenableBuilder(
+                                            valueListenable: senhaVisibility,
+                                            builder: (context, value, child) =>
+                                                TextFormField(
                                               controller:
-                                                  textEditingControllerEmail,
-                                              obscureText: false,
-                                              textInputAction:
-                                                  TextInputAction.next,
+                                                  textEditingControllerSenha,
+                                              obscureText:
+                                                  senhaVisibility.value,
                                               style: const TextStyle(
                                                   color: Colors.black),
                                               validator: (value) {
@@ -217,84 +276,31 @@ class _LoginPageState extends State<LoginPage> {
                                                 return null;
                                               },
                                               decoration: InputDecoration(
+                                                suffixIcon: IconButton(
+                                                    onPressed: () {
+                                                      senhaVisibility.value =
+                                                          !senhaVisibility
+                                                              .value;
+                                                    },
+                                                    icon: Icon(
+                                                      senhaVisibility.value
+                                                          ? Icons.visibility_off
+                                                          : Icons.visibility,
+                                                    )),
                                                 filled: true,
                                                 fillColor: Colors.white,
                                                 contentPadding:
                                                     const EdgeInsets.only(
                                                         left: 12),
-                                                hintText: "Digite seu e-mail",
+                                                hintText: "Digite sua senha",
                                                 border: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             15)),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 16.0,
-                                        right: 16,
-                                        top: 16,
-                                      ),
-                                      child: Focus(
-                                        onFocusChange: (value) {
-                                          isScrollable.value = value;
-                                        },
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Senha",
-                                              style: const TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            ValueListenableBuilder(
-                                              valueListenable: senhaVisibility,
-                                              builder:(context, value, child) => TextFormField(
-                                                controller:
-                                                    textEditingControllerSenha,
-                                                obscureText: senhaVisibility.value,
-                                                style: const TextStyle(
-                                                    color: Colors.black),
-                                                validator: (value) {
-                                                  if (value != null &&
-                                                      value.isEmpty) {
-                                                    return "Campo não pode estar vazio";
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration: InputDecoration(
-                                                  suffixIcon: IconButton(onPressed: () {
-                                                    senhaVisibility.value = !senhaVisibility.value;
-
-                                                  }, icon: Icon(
-                                                    senhaVisibility.value
-                                                        ? Icons.visibility_off
-                                                        : Icons.visibility,)),
-                                                  filled: true,
-                                                  fillColor: Colors.white,
-                                                  contentPadding:
-                                                      const EdgeInsets.only(
-                                                          left: 12),
-                                                  hintText: "Digite sua senha",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15)),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Padding(

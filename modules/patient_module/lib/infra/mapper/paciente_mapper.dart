@@ -17,7 +17,7 @@ class PacienteMapper {
       email: json["user"]["email"],
       fullName: json["user"]["full_name"],
       password: "",
-      photo: json["user"]["photo"],
+      photo: json["user"]["photo"] ?? "",
     );
   }
 

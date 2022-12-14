@@ -2,6 +2,7 @@ import 'package:core_module/core_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
 import 'package:patient_module/presenter/bloc/detalhes_paciente/detalhes_paciente_event.dart';
 import 'package:patient_module/presenter/bloc/detalhes_paciente/detalhes_paciente_state.dart';
 import 'package:patient_module/presenter/page/detalhes_paciente/components/paciente_perfil_component.dart';
@@ -30,6 +31,7 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
     Modular.dispose<DetalhesPacienteBloc>();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,8 +83,9 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                         ),
                       ),
                       if (state.detalhesPacienteEntity.illnessList.isEmpty &&
-                          state.detalhesPacienteEntity.familyIllnesslist.isEmpty)
-                       const Padding(
+                          state
+                              .detalhesPacienteEntity.familyIllnesslist.isEmpty)
+                        const Padding(
                             padding: EdgeInsets.only(left: 16.0, right: 16),
                             child: Center(
                                 child: Text(
@@ -173,8 +176,7 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                               ),
                                             ),
                                             child: Text(
-                                              //TODO
-                                              "Hoje - ${item.date}",
+                                              "${translateDate(DateFormat.yMMMMEEEEd().format(DateTime(int.parse(item.date.split("-")[0]), int.parse(item.date.split("-")[1]), int.parse(item.date.split("T")[0].split("-")[2]))))}",
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             ),
@@ -315,8 +317,7 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                               ),
                                             ),
                                             child: Text(
-                                              //TODO
-                                              "Hoje - ${item.date}",
+                                              "${translateDate(DateFormat.yMMMMEEEEd().format(DateTime(int.parse(item.date.split("-")[0]), int.parse(item.date.split("-")[1]), int.parse(item.date.split("T")[0].split("-")[2]))))}",
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             ),
@@ -452,7 +453,7 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                                               ),
                                             ),
                                             child: Text(
-                                              "Hoje - ${item.date}",
+                                              "${translateDate(DateFormat.yMMMMEEEEd().format(DateTime(int.parse(item.date.split("-")[0]), int.parse(item.date.split("-")[1]), int.parse(item.date.split("T")[0].split("-")[2]))))}",
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             ),
@@ -494,19 +495,131 @@ class _DetalhesPacientePageState extends State<DetalhesPacientePage> {
                             ),
                           );
                         },
+                      ),
+                      const SizedBox(
+                        height: 8,
                       )
                     ],
                   );
                 }
 
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height/2,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               },
             ),
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0, -2),
+                    blurRadius: 4
+                )
+              ]
+          ),
+          height: kToolbarHeight,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Center(
+                          child: Text(
+                            "Esse relatório foi gerado por uma IA",
+                            textAlign: TextAlign.center,
+                            style:
+                            TextStyle(color: Colors.blue),
+                          )),
+                      content: Wrap(
+                        children: const [
+                          Padding(
+                            padding:
+                            EdgeInsets.only(top: 0.0),
+                            child: Text(
+                              "Sintomas: sintomas",
+                              style: TextStyle(
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color:  const Color.fromARGB(255, 46, 134, 218),
+                    width: 2
+                  )),
+                child: const Center(child: Text("Pré diagnostico", style: TextStyle(color: Color.fromARGB(255, 46, 134, 218), fontSize: 18),)),
+              ),
+            ),
+          )
+      ),
     );
   }
+}
+
+String translateDate(String date) {
+  var day = date.split(",")[0];
+  var month = date.split(",")[1];
+
+  if (day == "Sunday") {
+    day = "Domingo";
+  } else if (day == "Monday") {
+    day = "Segunda-feira";
+  } else if (day == "Tuesday") {
+    day = "Terça-feira";
+  } else if (day == "Wednesday") {
+    day = "Quarta-feira";
+  } else if (day == "Thursday") {
+    day = "Quinta-feira";
+  } else if (day == "Friday") {
+    day = "Sexta-feira";
+  } else if (day == "Saturday") {
+    day = "Sábado";
+  }
+
+  if (month == "January") {
+    month = "Janeiro";
+  } else if (month == "February") {
+    month = "Fevereiro";
+  } else if (month == "March") {
+    month = "Março";
+  } else if (month == "April") {
+    month = "Abril";
+  } else if (month == "May") {
+    month = "Maio";
+  } else if (month == "June") {
+    month = "Junho";
+  } else if (month == "July ") {
+    month = "Julho";
+  } else if (month == "August") {
+    month = "Agosto";
+  } else if (month == "September") {
+    month = "Setembro";
+  } else if (month == "October ") {
+    month = "Outubro";
+  } else if (month == "November") {
+    month = "Novembro";
+  } else if (month == "December") {
+    month = "Dezembro";
+  }
+
+  return "$day, $month ${date.split(",")[1].split("").last}, ${date.split(",").last}";
 }

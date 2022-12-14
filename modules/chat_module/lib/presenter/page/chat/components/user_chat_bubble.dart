@@ -19,19 +19,21 @@ class _UserChatBubbleState extends State<UserChatBubble> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 8,
-                  right: 8,
-                  top: 12,
-                  bottom: 12),
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 227, 242, 253),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  )
+            Flexible(
+              child: Container(
+                padding: const EdgeInsets.only(left: 8,
+                    right: 8,
+                    top: 12,
+                    bottom: 12),
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 87, 159, 251),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    )
+                ),
+                child: Text(widget.message, style: TextStyle(color: Colors.black),),
               ),
-              child: Text(widget.message, style: TextStyle(color: Colors.black),),
             ),
             SizedBox(width: 8,)
           ],

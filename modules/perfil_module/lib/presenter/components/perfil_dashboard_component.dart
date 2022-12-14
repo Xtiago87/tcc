@@ -52,7 +52,8 @@ class _PerfilDashboardComponentState extends State<PerfilDashboardComponent> {
                 ),
               ),
               Builder(builder: (context) {
-                if (widget.perfilEntity.photo.isEmpty && photo == null) {
+                //TODO
+                if (widget.perfilEntity.photo.isEmpty && photo != null) {
                   return GestureDetector(
                     onTap: () async {
                       try {
@@ -83,7 +84,7 @@ class _PerfilDashboardComponentState extends State<PerfilDashboardComponent> {
                       }
                     },
                     child: const CircleAvatar(
-                      radius: 50,
+                      radius: 80,
                       backgroundColor: Colors.grey,
                       child: Center(
                         child: Text("Clique aqui para adicionar uma foto"),
@@ -92,7 +93,7 @@ class _PerfilDashboardComponentState extends State<PerfilDashboardComponent> {
                   );
                 } else {
                   return CircleAvatar(
-                    radius: 50,
+                    radius: 80,
                     backgroundColor: Colors.blue,
                     backgroundImage: MemoryImage(photo == null ? base64Decode(widget.perfilEntity.photo) : photo!),
                   );

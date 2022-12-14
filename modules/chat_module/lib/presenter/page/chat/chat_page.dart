@@ -11,12 +11,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../domain/entities/chat_message_entity.dart';
 import '../../bloc/send_message/send_message_bloc.dart';
+import '../../bloc/send_message/send_message_event.dart';
 import 'components/bot_chat_bubble.dart';
 import 'components/user_chat_bubble.dart';
 
 class ChatPage extends StatefulWidget {
   final int id;
-  const ChatPage({Key? key, required this.id}) : super(key: key);
+  bool firstTime;
+  ChatPage({Key? key, required this.id, required this.firstTime}) : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -34,7 +36,9 @@ class _ChatPageState extends State<ChatPage> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Modular.to.pushNamed("./dashboard");
+            },
             icon: const Icon(
               Icons.arrow_back,
               color: Colors.black,
@@ -58,16 +62,27 @@ class _ChatPageState extends State<ChatPage> {
           listener: (context, state) {
             if (state is SendMessageSuccessState) {
               hasMany = state.messageResponseEntity.many;
-              ChatChangeNotifier.instance.chatMessages.value
-                  .add(ChatMessageEntity(state.messageResponseEntity.text, 0));
-              if (state.messageResponseEntity.many == 1) {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return SintomasPage(
-                      sintomas: ChatUtil.stringListToSintomaEntity(state.messageResponseEntity.buttons),
-                    );
-                  },
-                ));
+              if(state.messageResponseEntity.mensgesns.isNotEmpty){
+                state.messageResponseEntity.mensgesns.forEach((element) {
+                  ChatChangeNotifier.instance.chatMessages.value.add(ChatMessageEntity(element, 0));
+                });
+                ChatChangeNotifier.instance.chatMessages.value.add(ChatMessageEntity(state.messageResponseEntity.text, 0));
+              }else{
+                ChatChangeNotifier.instance.chatMessages.value.add(ChatMessageEntity(state.messageResponseEntity.text, 0));
+              }
+              if (state.messageResponseEntity.buttons.isNotEmpty) {
+                Future.delayed(Duration(seconds: 5)).then((value){
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return SintomasPage(
+                        sintomas: ChatUtil.stringListToSintomaEntity(state.messageResponseEntity.buttons),
+                        sendMessageBloc: sendMessageBloc,
+                        id: widget.id,
+                        many: state.messageResponseEntity.many,
+                      );
+                    },
+                  ));
+                });
               }
             }
 
@@ -81,12 +96,18 @@ class _ChatPageState extends State<ChatPage> {
             }
           },
           builder: (context, state) {
+            if(widget.firstTime){
+              widget.firstTime = false;
+              sendMessageBloc.add(SendMessageTextEvent("Quero mudar minhas doenças", widget.id));
+              ChatChangeNotifier.instance.chatMessages.value.add(ChatMessageEntity("Quero mudar minhas doenças", 1));
+
+            }
             return SizedBox(
               height: MediaQuery.of(context).size.height - kToolbarHeight,
               child: Stack(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height - kToolbarHeight,
+                    height: MediaQuery.of(context).size.height - kToolbarHeight - kToolbarHeight - kToolbarHeight,
                     width: MediaQuery.of(context).size.width,
                     child: SingleChildScrollView(
                       child: ListView.builder(
@@ -105,13 +126,15 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     ),
                   ),
-                  if (hasMany == 1) ChatButtonOptions(sendMessageBloc: sendMessageBloc, id: widget.id),
-                  if (hasMany == 0) ChatTextField(sendMessageBloc: sendMessageBloc, id: widget.id)
+                  ChatTextField(sendMessageBloc: sendMessageBloc, id: widget.id)
+                  // if (hasMany == 1) ChatButtonOptions(sendMessageBloc: sendMessageBloc, id: widget.id),
+                  // if (hasMany != 1)
                 ],
               ),
             );
           },
         ),
+
       ),
     );
   }

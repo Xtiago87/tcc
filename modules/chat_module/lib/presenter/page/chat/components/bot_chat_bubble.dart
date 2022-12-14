@@ -28,22 +28,26 @@ class _BotChatBubbleState extends State<BotChatBubble> {
               backgroundColor: Color.fromARGB(255, 227, 242, 253),
             ),
             const SizedBox(width: 8,),
-            Container(
-              padding: const EdgeInsets.only(left: 8,
-                  right: 8,
-                  top: 12,
-                  bottom: 12),
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 227, 242, 253),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                )
+            Flexible(
+              child: Container(
+                padding: const EdgeInsets.only(left: 8,
+                    right: 8,
+                    top: 12,
+                    bottom: 12),
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 227, 242, 253),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  )
+                ),
+                child: Text(widget.message, style: const TextStyle(color: Colors.black),textAlign: TextAlign.justify,),
               ),
-              child: Text(widget.message, style: const TextStyle(color: Colors.black),),
-            )
+            ),
+            SizedBox(width: 8,)
           ],
         ),
+        const SizedBox(height: 8,),
       ],
     );
   }

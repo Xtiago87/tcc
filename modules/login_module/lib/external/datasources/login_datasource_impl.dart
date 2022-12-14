@@ -7,6 +7,7 @@ import 'package:login_module/infra/datasources/ilogin_datasource.dart';
 import 'package:login_module/infra/datasources/remote/ilogin_datasource_remote.dart';
 
 import '../../domain/entities/login_form_entity.dart';
+import '../../infra/models/login_response_body_model.dart';
 
 class LoginDatasourceImpl extends ILoginDatasource {
   final ILoginDataSourceRemote iLoginDataSourceRemote;
@@ -16,7 +17,7 @@ class LoginDatasourceImpl extends ILoginDatasource {
   LoginDatasourceImpl(this.iLoginDataSourceRemote);
 
   @override
-  Future login(LoginFormEntity loginFormEntity) async {
+  Future<LoginResponseBodyModel> login(LoginFormEntity loginFormEntity) async {
     try {
       final response = await iLoginDataSourceRemote.login(loginFormEntity);
 
@@ -28,7 +29,7 @@ class LoginDatasourceImpl extends ILoginDatasource {
         uid: response.uid
       ));
 
-      return true;
+      return response;
     } on Failure {
       rethrow;
     }

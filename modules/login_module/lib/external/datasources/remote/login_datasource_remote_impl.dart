@@ -14,7 +14,7 @@ class LoginDataSourceRemoteImpl extends ILoginDataSourceRemote {
   Future<LoginResponseBodyModel> login(LoginFormEntity loginFormEntity) async {
     try {
       final response = await Dio().post(
-        'https://ea82-200-253-187-124.sa.ngrok.io/api/v1/auth/sign_in',
+        'https://01d2-187-18-138-176.sa.ngrok.io/api/v1/auth/sign_in',
         data: LoginFormMapper.loginFormEntityToJson(loginFormEntity),
       );
 
@@ -33,7 +33,7 @@ class LoginDataSourceRemoteImpl extends ILoginDataSourceRemote {
           email: response.data["user"]["email"],
           fullName: response.data["user"]["full_name"],
           id: response.data["user"]["id"] ,
-          photo: response.data["user"]["photo"],
+          photo: response.data["user"]["photo"] ?? "",
           provider: response.data["user"]["provider"],
           uid: response.data["medic_id"] != null ? response.data["medic_id"].toString() : response.data["pacient_id"].toString(),
           userType: response.data["pacient_id"] != null ? "1" : "0"

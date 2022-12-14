@@ -10,10 +10,10 @@ class MessageDatasourceRemoteImpl extends IMessageDatasourceRemote{
   @override
   Future<MessageResponseModel> sendOptionsMessage(String text, int id) async {
     try {
-      final Dio dio = await getDio;
+      final Dio dio = Dio();
 
       final response = await dio.post(
-        'api/v1/medic/medical_center',
+        'https://4a32-177-190-209-208.sa.ngrok.io/webhooks/rest/webhook',
         data: MessageMapper.messageToJson(text, id),
       );
 
@@ -26,10 +26,10 @@ class MessageDatasourceRemoteImpl extends IMessageDatasourceRemote{
   @override
   Future<MessageModel> sendTextMessage(String text, int id) async {
     try {
-      final Dio dio = await getDio;
+      final Dio dio = Dio();
 
       final response = await dio.post(
-        'api/v1/medic/medical_center',
+        'https://4a32-177-190-209-208.sa.ngrok.io/webhooks/rest/webhook',
         data: MessageMapper.messageToJson(text, id));
 
 

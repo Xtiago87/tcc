@@ -20,9 +20,9 @@ class MessageDatasourceImpl extends IMessageDatasource{
   }
 
   @override
-  Future<MessageModel> sendTextMessage(String text, int id) async {
+  Future<MessageResponseModel> sendTextMessage(String text, int id) async {
     try{
-      return await iMessageDatasourceRemote.sendTextMessage(text, id);
+      return await iMessageDatasourceRemote.sendOptionsMessage(text, id);
     } on Failure {
       rethrow;
     }

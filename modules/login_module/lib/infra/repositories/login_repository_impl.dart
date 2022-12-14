@@ -6,13 +6,15 @@ import '../datasources/remote/ilogin_datasource_remote.dart';
 
 import 'package:fpdart/fpdart.dart';
 
+import '../models/login_response_body_model.dart';
+
 class LoginRepositoryImpl implements ILoginRepository {
   final ILoginDatasource _dataSource;
 
   LoginRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, dynamic>> login(LoginFormEntity loginFormEntity) async {
+  Future<Either<Failure, LoginResponseBodyModel>> login(LoginFormEntity loginFormEntity) async {
     try {
       final result = await _dataSource.login(loginFormEntity);
       return Right(result);

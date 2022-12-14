@@ -22,7 +22,7 @@ class MessageRepositoryImpl extends IMessageRepository{
   }
 
   @override
-  Future<Either<Failure, MessageEntity>> sendTextMessage(String text, int id) async {
+  Future<Either<Failure, MessageResponseEntity>> sendTextMessage(String text, int id) async {
     try{
       return Right(await iMessageDatasource.sendTextMessage(text, id));
     } on Failure catch (e){

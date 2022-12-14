@@ -15,7 +15,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       result.fold((l) {
         emit(LoginFailureState(errorMessage: l.errorMessage));
       }, (r) {
-        emit(LoginSuccessState());
+        emit(LoginSuccessState(r));
       });
     });
   }

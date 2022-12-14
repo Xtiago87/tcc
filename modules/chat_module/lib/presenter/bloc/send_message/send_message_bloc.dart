@@ -19,8 +19,7 @@ class SendMessageBloc extends Bloc<SendMessageEvent, SendMessageState> {
       result.fold((l) {
         emit(SendMessageFailureState(l.errorMessage));
       }, (r) {
-        emit(SendMessageSuccessState(
-            MessageResponseEntity(text: r.message, buttons: [], many: -1)));
+        emit(SendMessageSuccessState(r));
       });
     });
 

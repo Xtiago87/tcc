@@ -60,7 +60,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
                         contentPadding:
                         const EdgeInsets.only(
                             left: 12),
-                        hintText: "Mensagem",
+                        hintText: "Digite aqui...",
                         hintStyle: const TextStyle(
                             color: Color.fromARGB(255, 15, 86, 179)
                         ),
@@ -88,7 +88,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
                   child: const CircleAvatar(
                     radius: 20,
                     backgroundColor: Color.fromARGB(255, 9, 87, 222),
-                    child: Icon(Icons.send),
+                    child: Center(child: Icon(Icons.send, color: Colors.white,)),
                   ),
                 )
               ],

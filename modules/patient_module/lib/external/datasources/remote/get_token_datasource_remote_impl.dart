@@ -14,7 +14,7 @@ class GetTokenDatasourceRemoteImpl extends IGetTokenDatasourceRemote{
         'api/v1/medic/medic/$id',
       );
 
-      return response.data["token"];
+      return response.data["medic"]["token"];
     } on DioError catch (e) {
       throw Failure(errorMessage: e.message);
     }

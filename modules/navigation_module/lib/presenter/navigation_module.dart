@@ -78,7 +78,7 @@ class NavigationModule extends Module {
         ),
         ChildRoute(
           "/chat",
-          child: (context, args) => ChatPage(id: args.data),
+          child: (context, args) => ChatPage(id: args.data["id"], firstTime: args.data["ft"],),
         ),
       ];
 }

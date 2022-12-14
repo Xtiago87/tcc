@@ -7,7 +7,9 @@ class ChatChangeNotifier{
 
   ChatChangeNotifier._();
 
-  final ValueNotifier<List<ChatMessageEntity>> chatMessages = ValueNotifier([]);
+  final ValueNotifier<List<ChatMessageEntity>> chatMessages = ValueNotifier([
+    ChatMessageEntity("Bem vindo ao Consult, meu nome é Hermes e posso lhe ajudar nas suas próximas consultas guardando informações, listando centros médicos próximos à você, atualizando seu perfil, entre outras coisas. Estou aqui por você!", 0)
+  ]);
 
   final ValueNotifier<List<String>> sintomasSelecionados = ValueNotifier([]);
 
